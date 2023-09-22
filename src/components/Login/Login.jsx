@@ -6,7 +6,7 @@ import './Login.css';
 function Login() {
   
   function login () {
-    // document.location.href="/"
+    document.location.href="/movies"
     console.log('вход')
     }
 
@@ -31,7 +31,7 @@ function Login() {
             id="password" 
             className="login__input input__password"
             name="password"
-            minLength={8}
+            minLength={4}
             maxLength={30}
             required
           />

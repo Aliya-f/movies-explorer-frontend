@@ -44,7 +44,7 @@ function Register() {
             className="login__input input__password"
             placeholder="Пароль"
             name="password"
-            minLength={8}
+            minLength={4}
             maxLength={30}
             required
           />
