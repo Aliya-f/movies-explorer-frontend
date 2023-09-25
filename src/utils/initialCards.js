@@ -102,7 +102,7 @@ export const initialCards = [
     duration: 27,
     isSaved: false,
     url:
-      "https://getwallpapers.com/wallpaper/full/2/2/2/1320215-cool-yellowstone-wallpaper-desktop-1920x1080.jpg",
+      "https://fotovdom.ru/upload/iblock/d25/d255141a855d04a22e53630baa7a7960.jpg",
   },
   {
     id: 14,
@@ -126,7 +126,7 @@ export const initialCards = [
     duration: 27,
     isSaved: false,
     url:
-      "https://getwallpapers.com/wallpaper/full/2/2/2/1320215-cool-yellowstone-wallpaper-desktop-1920x1080.jpg",
+      "https://fotovdom.ru/upload/iblock/d25/d255141a855d04a22e53630baa7a7960.jpg",
   },
 ];
 

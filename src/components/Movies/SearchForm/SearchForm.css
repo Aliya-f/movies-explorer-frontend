@@ -1,10 +1,12 @@
 .search-form {
-  padding: 0 50px;
+  padding: 0 70px;
 }
 
 .search-form__container {
   max-width: 1140px;
-  margin: 80px auto 10px;
+  padding-bottom: 80px;
+  margin: 70px auto 0;
+  border-bottom: 1px solid #424242;
 }
 
 .search-form__form {
@@ -71,6 +73,11 @@ padding-left: 20px;
 
 .filter-checkbox {
   width: fit-content;
+  transition: opacity 0.5s ease;
+}
+
+.filter-checkbox:hover {
+  opacity: 0.7;
 }
 
 .filter-checkbox__label {
@@ -127,14 +134,14 @@ padding-left: 20px;
   }
   .search-form__container {
     margin: 80px 0 10px;
-    padding: 0;
+    padding-bottom: 109px;
   }
 }
 
 @media screen and (max-width: 720px) {
   .search-form__container {
     margin: 80px auto 0;
-    padding-bottom: 50px;
+    padding-bottom: 45px;
     border-bottom: 1px solid 
 #424242;
   }

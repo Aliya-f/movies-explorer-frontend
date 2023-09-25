@@ -2,7 +2,8 @@
   margin: 0;
   padding: 0px;
   display: flex;
-  align-items: center;
+  /* align-items: center; */
+  justify-content: center;
 }
 
 .card__container {

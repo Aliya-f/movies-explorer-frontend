@@ -1,8 +1,13 @@
+.about-project {
+  display: flex;
+  justify-content: center;
+}
+
 .about-project__container {
   max-width: 1140px;
-  margin: 110px auto;
+  margin: 110px 70px;
   font-weight: 400;
-  padding: 0 50px
+  padding: 0;
 }
 
 .about-project__info {
@@ -73,8 +78,8 @@
 
 @media screen and (max-width: 800px) {
   .about-project__container {
-    margin: 90px 0;
-    padding: 0 30px;
+    margin: 90px 50px;
+    padding: 0;
   }
 
   .about-project__info {
@@ -97,8 +102,8 @@
 
 @media screen and (max-width: 610px) {
   .about-project__container {
-    margin: 70px 0;
-    padding: 0 18px;
+    margin: 70px 18px;
+    padding: 0;
   }
   
   .about-project__info {
@@ -137,7 +142,5 @@
 }
 
 @media screen and (max-width: 450px) {
-  .about-project__container {
-    padding: 0 12px;
-  }
+
 }

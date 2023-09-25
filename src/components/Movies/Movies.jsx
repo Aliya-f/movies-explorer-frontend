@@ -30,11 +30,13 @@ function Movies() {
   return (
     <>
       <Header />
-      <SearchForm />
-      <MoviesCardList 
-        data={initialCards}
+      <main>
+        <SearchForm />
+        <MoviesCardList 
+          data={initialCards}
  
-      />
+        />
+      </main>
       <Footer />
     </>
   );

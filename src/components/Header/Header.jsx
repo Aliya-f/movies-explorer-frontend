@@ -18,17 +18,17 @@ function Header({ isLoggedIn }) {
     }
 
   const sign = (
-    <div className="header__sign-container">
+    <nav className="header__sign-container">
       <Link to="/signup" className="header__signup">Регистрация</Link>
       <Link to="/signin" className="header__signin">Войти</Link>
-    </div>
+    </nav>
   );
 
   return (
     <header className={`${location.pathname === '/' ? "header_blue-color" : null} header`}>
       <div className="header__container">
         <Link to='/'>
-          <img className="header__logo" src={headerLogo} alt="logo"/>
+          <img className="header__logo" src={headerLogo} alt="логотип"/>
         </Link>
         {isLoggedIn ? (<NavTab />) : sign}
       </div>
