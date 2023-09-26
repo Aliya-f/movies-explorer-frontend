@@ -59,8 +59,9 @@
   .filter-checkbox-mobile__text {
     padding-left: 10px;
     margin: 0;
+    font-family: "Inter", Arial, sans-serif;
     font-size: 13px;
-    line-height: 18px;
+    line-height: 1.05;
     color: #FFFFFF;
     font-weight: 400;
   }
@@ -69,6 +70,6 @@
 @media screen and (max-width: 610px) {
   .filter-checkbox-mobile__text {
     font-size: 11px;
-    line-height: 18px;
+    line-height: 1.05;
   }
 }

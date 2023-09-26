@@ -31,6 +31,7 @@ function Profile() {
                   modifier="profile"
                   type="text"
                   id='name'
+                  placeholder="Имя"
                   value={name}
                   required
                   onChange={changeName}
@@ -45,6 +46,7 @@ function Profile() {
                   label="E-mail"
                   modifier="profile"
                   type="email"
+                  placeholder="E-mail"
                   value={email}
                   required
                   onChange={changeEmail}

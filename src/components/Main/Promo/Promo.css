@@ -2,6 +2,7 @@
   background-color: #073042;
   display: flex;
   justify-content: center;
+  font-family: "Inter", Arial, sans-serif;
 }
 
 .promo__container {

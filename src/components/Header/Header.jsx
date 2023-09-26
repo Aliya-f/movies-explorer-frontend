@@ -32,7 +32,7 @@ function Header({ isLoggedIn }) {
         </Link>
         {isLoggedIn ? (<NavTab />) : sign}
       </div>
-      {isLoggedIn && (
+      {!isLoggedIn && (
         <button className="header__menu-btn"
           type="button" 
           onClick={handleClickOpenMobileMenu}
@@ -41,6 +41,7 @@ function Header({ isLoggedIn }) {
         />
       )}
       <div className={`mobile-menu ${isMobileMenuOpen && "mobile-menu_type_opened"}`} >
+        <div className="mobile-menu_overlay"></div>
         <ul className="mobile-menu__links">
           <li><Link to="/" className={`${location.pathname === '/' ? "link_type_active" : null} mobile-menu__link`}>Главная</Link></li>
           <li><Link to="/movies" className={`${location.pathname === '/movies' ? "link_type_active" : null} mobile-menu__link`}>Фильмы</Link></li>

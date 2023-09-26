@@ -31,9 +31,10 @@
   align-items: center;
   justify-content: space-between;
   margin: 0 0 0 auto;
+  font-family: "Inter", Arial, sans-serif;
   font-weight: 500;
   font-size: 12px;
-  line-height: 16px;  
+  line-height: 1.05;  
 }
 
 .header_blue-color {
@@ -42,10 +43,11 @@
 
 .header__signup {
   margin: 0;
+  font-family: "Inter", Arial, sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 12px;
-  line-height: 1;
+  line-height: 1.05;
   display: flex;
   align-items: center;
   text-decoration: none;
@@ -59,18 +61,19 @@
 }
 
 .header__signin {
-  min-width: 76px;
+  max-width: 76px;
+  width: 100%;
   min-height: 32px;
   margin: 0;
   padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: Inter;
+  font-family: "Inter", Arial, sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 12px;
-  line-height: 1;
+  line-height: 1.05;
   text-decoration: none;
   color: #000000;
   transition: opacity 0.5s ease;
@@ -101,6 +104,7 @@
   flex-direction: column;
   border: 0;
   align-items: center;
+  font-family: "Inter", Arial, sans-serif;
   font-weight: 500;
   height: 100vh;
   width: 520px;
@@ -108,8 +112,18 @@
   right: 0;
   bottom: 0;
   top: 0;
-  z-index: 1;
   padding-top: 200px;
+}
+
+.mobile-menu_overlay {
+  position: fixed;
+  z-index: 1;
+  background-color: #202020;
+  right: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  opacity: 0.6;
 }
 
 .mobile-menu_type_opened {
@@ -123,13 +137,16 @@
   margin-bottom: 400px;
   align-items: center;
   padding: 0;
+  z-index: 2;
 }
 
 .mobile-menu__link {
   display: flex;
+  font-family: "Inter", Arial, sans-serif;
   font-size: 18px;
-  line-height: 1.4;
+  line-height: 1.05;
   margin-bottom: 20px;
+  z-index: 2;
 }
 
 .link_type_active {
@@ -137,8 +154,9 @@
 }
 
 .link__text {
+  font-family: "Inter", Arial, sans-serif;
   font-size: 13px;
-  line-height: 0.8;
+  line-height: 1.05;
   align-self: center;
   margin-right: 5px;
 }
@@ -167,11 +185,24 @@
   }
   .header__menu-btn {
     display: block;
+    top: 28px;
+    right: 30px;
+    width: 23px;
+    height: 23px;
   }
   .header__menu-btn:hover {
     cursor: pointer;
     opacity: 0.6;
   }
+  .mobile-menu {
+    padding-top: 150px;
+  }
+  .mobile-menu__link {
+    padding-top: 10px;
+  }
+  /* .mobile-menu__links {
+    padding-bottom: 600px;
+  } */
 }
 
 @media screen and (max-width: 610px) {
@@ -181,12 +212,12 @@
   }
   .header__sign-container {
     font-size: 10px;
-    line-height: 16px;
+    line-height: 1.05;
     max-width: 150px;
   }
   .header__signup {
     font-size: 10px;
-    line-height: 16px;
+    line-height: 1.05;
   }
   .header__signin {
     max-width: 54px;
@@ -194,7 +225,7 @@
     font-size: 10px;
   }
   .header__menu-btn {
-    right: 0;
+    right: 18px;
   }
 }
 
@@ -203,4 +234,37 @@
     padding-left: 14px;
     padding-right: 14px;
   }
+  .header__sign-container {
+    height: 100%;
+    gap: 14px;
+    max-width: 131px;
+  }
+  .header__signup {
+    font-size: 10px;
+    line-height: 1.05;
+  }
+  .header__signin {
+    max-width: 54px;
+    height: 26px;
+    /* padding: 5px 0; */
+    font-size: 10px;
+  }
+  .header__menu-btn {
+    right: 14px;
+    top: 22px;
+  }
+  .mobile-menu {
+    padding-top: 136px;
+  }
+  .mobile-menu__links {
+    margin-bottom: 418px;
+  }
+  .mobile-menu__link {
+    padding-bottom: 6px;
+    margin-bottom: 12px;
+  }
+  .link__text {
+    margin-right: 10px;
+  }
+  
 }

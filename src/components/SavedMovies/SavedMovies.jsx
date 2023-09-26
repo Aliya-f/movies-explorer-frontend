@@ -14,11 +14,13 @@ function SavedMovies() {
   return (
     <>
       <Header />
+      <main>
       <SearchForm />
       <MoviesCardList 
         data={initialLikeCards}
         onSavedPage={onSavedPage}
       />
+      </main>
       <Footer />
     </>
   );
