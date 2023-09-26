@@ -23,12 +23,10 @@ function Profile() {
             <h1 className="profile__title">Привет, Виталий!</h1>
             <form className="profile__form">
               <fieldset className="profile__inputs">
-                <label htmlFor='name' className='profile__lable'>Имя</label>
+                <label className='profile__lable'>Имя</label>
                 <input
                   className='profile__input'
                   name="name"
-                  label="Имя"
-                  modifier="profile"
                   type="text"
                   id='name'
                   placeholder="Имя"
@@ -38,13 +36,11 @@ function Profile() {
                 />
               </fieldset>
               <fieldset className="profile__inputs">
-                <label htmlFor='email' className='profile__lable'>E-mail</label>
+                <label className='profile__lable'>E-mail</label>
                 <input
                   className='profile__input'
                   id='email'
                   name="email"
-                  label="E-mail"
-                  modifier="profile"
                   type="email"
                   placeholder="E-mail"
                   value={email}

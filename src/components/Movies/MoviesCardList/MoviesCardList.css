@@ -66,6 +66,9 @@
   .movies-cardlist__container {
     grid-template-columns: repeat(2, 339px);
   }
+  .movies-cardlist__button {
+    margin-bottom: 80px;
+  }
 }
 
 @media (max-width: 720px) {

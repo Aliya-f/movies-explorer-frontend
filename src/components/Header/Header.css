@@ -86,7 +86,7 @@
 }
 
 .header__menu-btn {
-  position: absolute;
+  position: fixed;
   top: 25px;
   right: 11px;
   width: 44px;
@@ -149,11 +149,11 @@
   z-index: 2;
 }
 
-.link_type_active {
+.mobile-menu__link_type_active {
   border-bottom: 1px solid white;
 }
 
-.link__text {
+.mobile-menu__link_text {
   font-family: "Inter", Arial, sans-serif;
   font-size: 13px;
   line-height: 1.05;
@@ -161,7 +161,7 @@
   margin-right: 5px;
 }
 
-.link__logo {
+.mobile-menu__link_logo {
   width: 26px;
   height: 26px;
   background-image: url(../../images/icon__COLOR_icon-main.svg);
@@ -263,7 +263,7 @@
     padding-bottom: 6px;
     margin-bottom: 12px;
   }
-  .link__text {
+  .mobile-menu__link_text {
     margin-right: 10px;
   }
   

@@ -18,7 +18,7 @@ function Register() {
         <Link to="/" className="login__logo-container"><img src={logo} alt="логотип" className="login__logo"/></Link>
           <h1 className="login__title">Добро пожаловать!</h1>
           <form className="login__form">
-          <label htmlFor="name" className="login__label">Имя</label>
+          <label className="login__label">Имя</label>
             <input 
               name="name" 
               type="text" 
