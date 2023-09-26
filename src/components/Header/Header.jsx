@@ -43,9 +43,9 @@ function Header({ isLoggedIn }) {
       <div className={`mobile-menu ${isMobileMenuOpen && "mobile-menu_type_opened"}`} >
         <div className="mobile-menu_overlay"></div>
         <ul className="mobile-menu__links">
-          <li><Link to="/" className={`${location.pathname === '/' ? "link_type_active" : null} mobile-menu__link`}>Главная</Link></li>
+          <li><Link to="/" className={`${location.pathname === '/' ? "mobile-menu__link_type_active" : null} mobile-menu__link`}>Главная</Link></li>
           <li><Link to="/movies" className={`${location.pathname === '/movies' ? "mobile-menu__link_type_active" : null} mobile-menu__link`}>Фильмы</Link></li>
-          <li><Link to="/saved-movies" className={`${location.pathname === '/saved-movies' ? "link_type_active" : null} mobile-menu__link`}>Сохранённые фильмы</Link></li>
+          <li><Link to="/saved-movies" className={`${location.pathname === '/saved-movies' ? "mobile-menu__link_type_active" : null} mobile-menu__link`}>Сохранённые фильмы</Link></li>
         </ul>
         <Link to="/profile" className="mobile-menu__link">
           <span className="mobile-menu__link_text">Аккаунт</span>
