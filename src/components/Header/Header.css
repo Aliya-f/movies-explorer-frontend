@@ -93,10 +93,11 @@
   height: 44px;
   background-repeat: no-repeat;
   display: none;
-  z-index: 2;
+  z-index: 3;
 }
 
 .mobile-menu {
+  z-index: 2;
   display: none;
   position: fixed;
   overflow: auto;

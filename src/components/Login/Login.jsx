@@ -14,9 +14,10 @@ function Login() {
     <main>
       <section className="login">
         <div className="login__container">
-        <Link className="login__logo-container" to="/"><img src={logo} alt="логотип" className="login__logo"/></Link>
-          <h1 className="login__title">Рады видеть!</h1>
-          <form className="login__form">
+          <div className="login__container_elem">
+            <Link className="login__logo-container" to="/"><img src={logo} alt="логотип" className="login__logo"/></Link>
+            <h1 className="login__title">Рады видеть!</h1>
+            <form className="login__form">
             <label htmlFor="email" className="login__label">E-mail</label>
             <input 
               name="email"
@@ -39,12 +40,15 @@ function Login() {
               required
             />
             <span className="login__error" id="password-error">Что-то пошло не так...</span>
-          </form>
-          <button className="login__submit-button" type="submit" onClick={login}>Войти</button>        
-          <p className="login__question">Ещё не зарегистрированы?
-            <Link to="/signup"
+            </form>
+          </div>
+          <div className="login__container_elem">
+            <button className="login__submit-button" type="submit" onClick={login}>Войти</button>        
+            <p className="login__question">Ещё не зарегистрированы?
+              <Link to="/signup"
             className="login__link">Регистрация</Link>
-          </p>
+            </p>
+          </div> 
         </div>
       </section>
     </main>

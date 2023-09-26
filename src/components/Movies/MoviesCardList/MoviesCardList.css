@@ -86,4 +86,9 @@
     gap: 35px;
     padding: 40px 0 50px;
   }
+  .movies-cardlist__button {
+    max-width: 240px;
+    margin-bottom: 159px;
+  }
+
 }
