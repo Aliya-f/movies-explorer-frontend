@@ -3,29 +3,25 @@ import {
   Routes,
   Route, 
   Navigate, 
-  // useNavigate 
+  useNavigate 
 } from 'react-router-dom';
 import Header from "../Header/Header";
 import Main from "../Main/Main";
 import Footer from "../Footer/Footer";
-// import ProtectedRoute from "../ProtectedRoute.jsx";
+import ProtectedRoute from "../ProtectedRoute.jsx";
 import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
 import Profile from '../Profile/Profile';
 import NotFound from "../NotFound/NotFound";
+import { CurrentUserContext } from '../../contexts/CurrentUserContext.jsx';
+// import ErrorMessage from '../ErrorMessage/ErrorMessage.jsx';
 
-// import Navigation from '../Navigation/Navigation';
-// import PopupWithForm from "./PopupWithForm";
-// import ImagePopup from "./ImagePopup";
-// import { CurrentUserContext } from "../contexts/CurrentUserContext";
-// import { api } from "../utils/Api.js";
-// import { apiAuth } from "../utils/ApiAuth.js";
-// import EditAvatarPopup from "./EditAvatarPopup";
-// import EditProfilePopup from "./EditProfilePopup";
-// import AddPlacePopup from "./AddPlacePopup";
+// import Preloader from "../Preloader/Preloader";
 import Register from "../Register/Register";
 import Login from "../Login/Login";
 // import InfoTooltip from "./InfoTooltip.jsx";
+import { MoviesApi } from '../../utils/MoviesApi';
+import { mainApi } from '../../utils/MainApi';
 
 function App() {
 // // попап аватарки
@@ -44,8 +40,8 @@ function App() {
 //   const [isInfoTooltipSuccess, setIsInfoTooltipSuccess] = React.useState(false);
 //   // информация о входе
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
-//   const [email, setEmail] = React.useState('');
-//   // попап модального окна,который информирует пользователя об успешной (или не очень) регистрации
+  const [email, setEmail] = React.useState('');
+  //   // попап модального окна,который информирует пользователя об успешной (или не очень) регистрации
 //   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
 //   // хук
 //   const navigate = useNavigate();
@@ -202,11 +198,198 @@ function App() {
 //       navigate('/');
 //     }
 //   }, [isLoggedIn, navigate]);
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = React.useState(false);
+  // const [movies, setMovies] = React.useState([]);
+  const [isErrorMessageOpen, setErrorMessageOpen] = React.useState(false);
+  const [ErrorMessageText, setErrorMessageText] = React.useState('');
+  const [currentUser, setCurrentUser] = React.useState('');
+  const [moviesSave, setMoviesSave] = React.useState([]);
+  const [movies, setMovies] = React.useState([]);
+  const movieArray = localStorage.getItem('movieArray');
+
+  function handleErrorTimer() {
+    setTimeout(() => {
+      setErrorMessageOpen(false)
+    }, 6000)
+  }
+  function errorFunc(message) {
+    setErrorMessageOpen(true);
+    setErrorMessageText(message);
+    handleErrorTimer();
+  }
+
+  // регистрация
+  function handleRegister (email, password, name) {
+    return mainApi
+      .signUp({email, password, name})
+      .then(() => {
+        handleLogin(email, password);
+        navigate('/movies');
+      })
+      .catch(() => {
+        errorFunc('Пользователь уже зарегистрирован');
+      })
+  }
+  // аутентификация
+  function handleLogin (email, password) {
+    return mainApi
+      .signIn({ email, password})
+      .then((res) => {
+        localStorage.setItem('JWT', res.token);
+        console.log(res.token) // токен приходит
+        // api._token = res.token;
+        setEmail(email);
+        setIsLoggedIn(true)
+        navigate('/movies');
+      })
+      .catch((err) => {
+        console.log(err);
+        errorFunc('Неправильная почта или пароль');
+      })
+  }
+
+  // получение инфо пользователя
+  React.useEffect(() => {
+    // const token = localStorage.getItem('JWT');
+    if (!isLoggedIn) return;
+
+      // console.log(token) // токен из хранилища приходит
+    mainApi
+      .getUserInfo()
+      .then((data) => {
+        setCurrentUser(data);
+      })
+      .catch((err) => console.log(err));
+  }, [isLoggedIn]);
+
+  // проверка токена
+  React.useEffect(() => {
+    const token = localStorage.getItem('JWT');
+      if (token)
+      {
+        mainApi
+        .checkToken(token)
+        .then((data) => {
+          
+          if (data) {
+            setIsLoggedIn(true); // вошли
+            setEmail(data.email); // получаем почту
+            setCurrentUser(data)
+            navigate("/movies"); // перебрасываем в профиль
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+  }, []);
+
+  // удаление токена
+  function onSignOut() {
+    localStorage.removeItem('JWT');
+    setIsLoggedIn(false);
+  }
+  // React.useEffect(() => {
+  //   if (isLoggedIn) {
+  //     navigate('/');
+  //   }
+  // }, [isLoggedIn, navigate]);
+
+// function handleErrorClick() {
+//   setErrorMessageOpen(false)
+// }
+
+// React.useEffect(() => {
+
+//     MoviesApi
+//       .getMovies()
+//         .then((res) => {
+//           console.log(res)
+//           setMovies(res);
+//         })
+//         .catch((err) => console.log(err));
+
+// }, []);
+
+// отрисовка массива фильмов
+  function handleSearch() {
+    if (movies.length >= 1) {
+      return
+    } else if (movieArray) {
+      return setMovies(JSON.parse(movieArray))
+    } else {
+      return MoviesApi.getMovies()
+      .then((data) => {
+        console.log(data)
+        localStorage.setItem('movieArray', JSON.stringify(data));
+        return setMovies(JSON.parse(localStorage.getItem('movieArray')))
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    }
+  }
+
+  // лайк, добавление фильма
+  function handleMovieLike(id) {
+    const isLiked = movies.find((item) => {
+      return item.id === id
+    })
+    return mainApi.addMovie(isLiked)
+    .then((data) => {
+      setMoviesSave([data, ...moviesSave])
+    })
+    .catch(() => {
+    errorFunc('Что-то пошло не так');
+    })
+  }
+
+  // удаление фильма
+  function handleMovieDelete(id) {
+    if (typeof id === 'string') {
+      return mainApi.deleteMovie(id)
+      .then(() => {
+        const newMovies = moviesSave.filter((movie) => movie._id !== id);
+        setMoviesSave(newMovies);
+      })
+      .catch(() => {
+        errorFunc('Что-то пошло не так');
+      })
+    } else {
+      const isSaved = moviesSave.find((item) => {
+        return item.movieId === id
+      })
+      return mainApi.deleteMovie(isSaved._id)
+      .then(() => {
+        const newMovies = moviesSave.filter((movie) => movie._id !== isSaved._id);
+        setMoviesSave(newMovies);
+      })
+      .catch(() => {
+        errorFunc('Что-то пошло не так');
+      })
+    }
+  }
+
+  // отрисовка сохраненных фильмов 
+  React.useEffect(() => {
+    Promise.all([mainApi.getUserInfo(), mainApi.getSavedMovies()])
+    .then(([user, data]) => {
+      // console.log(data.data)
+      setCurrentUser(user);
+      setMoviesSave(data.data);
+
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }, []);
+
+  // console.log(moviesSave)
 
   return (
-    // <CurrentUserContext.Provider value={currentUser}>
-      <div className="page">
-        <Routes>
+
+    <div className="page">
+      <CurrentUserContext.Provider value={currentUser}>
+      <Routes>
         <Route path="/" element={
           <>
             <Header isLoggedIn={isLoggedIn}/>
@@ -219,29 +402,51 @@ function App() {
             <Route
               path="/signup" 
               element={
-                <Register isLoggedIn={isLoggedIn}/>}
+                <Register isLoggedIn={isLoggedIn} onRegister={handleRegister} isLoading={isLoading}/>}
             />
             <Route 
               path="/signin"
               element={
-                <Login isLoggedIn={isLoggedIn}/>} 
+                <Login isLoggedIn={isLoggedIn} onAuth={handleLogin} isLoading={isLoading}/>} 
             />
           </>)
         : null}
         <Route
           path='/movies'
-          element={<Movies />}
-          isLoggedIn={isLoggedIn}
+          element={
+            <ProtectedRoute
+            element={Movies }
+            isLoggedIn={isLoggedIn}
+            handleLikeClick={handleMovieLike}
+            checkLike={moviesSave}
+            handleDislikeClick={handleMovieDelete}
+            handleSearch={handleSearch}
+            moviesSection={movies}
+            />}
         />
         <Route
           path='/saved-movies'
-          element={<SavedMovies />}
-          isLoggedIn={isLoggedIn}
+          element={
+            <ProtectedRoute
+            element={SavedMovies }
+            isLoggedIn={isLoggedIn}
+            moviesSection={moviesSave} 
+            handleSearch={handleSearch}
+
+            checkLike={moviesSave}
+            handleDislikeClick={handleMovieDelete}
+
+            />}
         />
         <Route
           path='/profile'
-          element={<Profile/>}
-          isLoggedIn={isLoggedIn}
+          element={
+            <ProtectedRoute
+            element={Profile}
+            isLoggedIn={isLoggedIn}
+            isLoading={isLoading}
+            signOut={onSignOut}
+            />}
         />
         <Route
           path='/404'
@@ -254,8 +459,10 @@ function App() {
           <Route path="/signin" element={<Login onAuth={handleLogin} isLoggedIn={isLoggedIn} />} />
           <Route path="*" element={isLoggedIn ? <Navigate to="/" replace /> : <Navigate to="/sign-in" replace />} /> */}
         </Routes>
-      </div>
-    // </CurrentUserContext.Provider>
+        {/* <ErrorMessage errActive={isErrorMessageOpen} errHide={handleErrorClick} errText={ErrorMessageText}/> */}
+        {/* <Preloader active={''}/> */}
+      </CurrentUserContext.Provider>
+    </div>
   );
 }
 

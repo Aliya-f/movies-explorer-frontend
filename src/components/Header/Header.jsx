@@ -12,9 +12,9 @@ function Header({ isLoggedIn }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   // хендлер меню 
     function handleClickOpenMobileMenu() {
-      // if (isLoggedIn) {
+      if (isLoggedIn) {
         setIsMobileMenuOpen(!isMobileMenuOpen)
-      // }
+      }
     }
 
   const sign = (

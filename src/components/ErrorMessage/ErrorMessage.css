@@ -1,0 +1,25 @@
+.error-message {
+  position: fixed;
+  top: -10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: fit-content;
+  padding: 20px 30px;
+  border: 2px solid #3ddc84;
+  border-top: none;
+  background-color: #2F2F2F;
+  pointer-events: none;
+  transition: .5s linear;
+}
+
+.error-message_active {
+  top: 0;
+  pointer-events: all;
+  cursor: pointer;
+}
+
+.error-message__text {
+  margin: 0;
+  font-size: 14px;
+  line-height: 100%;
+}

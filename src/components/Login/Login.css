@@ -7,7 +7,7 @@
   margin: 70px auto 50px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   height: 560px;
 }
 
@@ -38,8 +38,14 @@
 .login__form {
   display: flex;
   flex-direction: column;
+  height: 413px;
+  justify-content: space-between;
   /* margin-bottom: 221px; */
 }
+
+/* .login__inputs {
+  
+} */
 
 .login__label {
   margin: 0;
@@ -68,6 +74,7 @@
   font-size: 14px;
   line-height: 1.05;
   color: #FFFFFF;
+  width: 100%;
 }
 
 .login__input:focus {
@@ -127,9 +134,9 @@
   opacity: 0.7;
 }
 
-.login__submit-button:disabled {
+.login__submit-button_disabled {
   cursor: auto;
-  opacity: 1;
+  opacity: 0.7;
   background-color: gainsboro;
 }
 
