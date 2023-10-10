@@ -39,6 +39,7 @@
   align-self: center;
   max-width: 315px;
   height: 16px;
+  max-width: 245px;
 }
 
 .card__like-button {

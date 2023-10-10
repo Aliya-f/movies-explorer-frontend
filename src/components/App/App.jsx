@@ -14,13 +14,13 @@ import SavedMovies from '../SavedMovies/SavedMovies';
 import Profile from '../Profile/Profile';
 import NotFound from "../NotFound/NotFound";
 import { CurrentUserContext } from '../../contexts/CurrentUserContext.jsx';
-// import ErrorMessage from '../ErrorMessage/ErrorMessage.jsx';
+import ErrorPopup from '../ErrorPopup/ErrorPopup.jsx';
 
 // import Preloader from "../Preloader/Preloader";
 import Register from "../Register/Register";
 import Login from "../Login/Login";
 // import InfoTooltip from "./InfoTooltip.jsx";
-import { MoviesApi } from '../../utils/MoviesApi';
+// import { MoviesApi } from '../../utils/MoviesApi';
 import { mainApi } from '../../utils/MainApi';
 
 function App() {
@@ -204,18 +204,19 @@ function App() {
   const [isErrorMessageOpen, setErrorMessageOpen] = React.useState(false);
   const [ErrorMessageText, setErrorMessageText] = React.useState('');
   const [currentUser, setCurrentUser] = React.useState('');
-  const [moviesSave, setMoviesSave] = React.useState([]);
-  const [movies, setMovies] = React.useState([]);
-  const movieArray = localStorage.getItem('movieArray');
+
+  const token = localStorage.getItem("token");
+  const [savedMovies, setSavedMovies] = React.useState([]);
+  const [savedMoviesMessage, setSavedMoviesMessage] = React.useState("");
 
   function handleErrorTimer() {
     setTimeout(() => {
       setErrorMessageOpen(false)
     }, 6000)
   }
-  function errorFunc(message) {
+  function showError(text) {
     setErrorMessageOpen(true);
-    setErrorMessageText(message);
+    setErrorMessageText(text);
     handleErrorTimer();
   }
 
@@ -228,7 +229,7 @@ function App() {
         navigate('/movies');
       })
       .catch(() => {
-        errorFunc('Пользователь уже зарегистрирован');
+        showError('При регистрации возникла ошибка');
       })
   }
   // аутентификация
@@ -245,7 +246,7 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
-        errorFunc('Неправильная почта или пароль');
+        showError('Неправильная почта или пароль');
       })
   }
 
@@ -283,20 +284,35 @@ function App() {
     }
   }, []);
 
-  // удаление токена
+  // редактировать профиль
+  function handleEditProfile({email, name}) {
+    mainApi
+    .setUserInfo(email, name)
+    .then((data) => {
+      console.log({email, name}) //указанные данные выводит
+      console.log(data) // выводятся прежние данные, не изменяя
+      setCurrentUser(data);
+      showError('Данные успешно изменены!');
+    })
+    .catch((e) => {
+      console.log(e)
+      showError('Произошла ошибка! Повторите попытку');
+    });
+  }
+
+  // выход, удаление токена
   function onSignOut() {
     localStorage.removeItem('JWT');
     setIsLoggedIn(false);
+    localStorage.removeItem('movieArray');
+    localStorage.removeItem('SearchHistory');
+    localStorage.removeItem('queryData');
+    localStorage.removeItem('allMoviesData');
+    setCurrentUser({
+      name: "",
+      email: "",
+    })
   }
-  // React.useEffect(() => {
-  //   if (isLoggedIn) {
-  //     navigate('/');
-  //   }
-  // }, [isLoggedIn, navigate]);
-
-// function handleErrorClick() {
-//   setErrorMessageOpen(false)
-// }
 
 // React.useEffect(() => {
 
@@ -310,80 +326,27 @@ function App() {
 
 // }, []);
 
-// отрисовка массива фильмов
-  function handleSearch() {
-    if (movies.length >= 1) {
-      return
-    } else if (movieArray) {
-      return setMovies(JSON.parse(movieArray))
-    } else {
-      return MoviesApi.getMovies()
-      .then((data) => {
-        console.log(data)
-        localStorage.setItem('movieArray', JSON.stringify(data));
-        return setMovies(JSON.parse(localStorage.getItem('movieArray')))
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-    }
-  }
-
-  // лайк, добавление фильма
-  function handleMovieLike(id) {
-    const isLiked = movies.find((item) => {
-      return item.id === id
-    })
-    return mainApi.addMovie(isLiked)
-    .then((data) => {
-      setMoviesSave([data, ...moviesSave])
-    })
-    .catch(() => {
-    errorFunc('Что-то пошло не так');
-    })
-  }
-
-  // удаление фильма
-  function handleMovieDelete(id) {
-    if (typeof id === 'string') {
-      return mainApi.deleteMovie(id)
-      .then(() => {
-        const newMovies = moviesSave.filter((movie) => movie._id !== id);
-        setMoviesSave(newMovies);
-      })
-      .catch(() => {
-        errorFunc('Что-то пошло не так');
-      })
-    } else {
-      const isSaved = moviesSave.find((item) => {
-        return item.movieId === id
-      })
-      return mainApi.deleteMovie(isSaved._id)
-      .then(() => {
-        const newMovies = moviesSave.filter((movie) => movie._id !== isSaved._id);
-        setMoviesSave(newMovies);
-      })
-      .catch(() => {
-        errorFunc('Что-то пошло не так');
-      })
-    }
-  }
-
-  // отрисовка сохраненных фильмов 
+  
+  // получаем список фильмов, сохраненных пользователем
   React.useEffect(() => {
-    Promise.all([mainApi.getUserInfo(), mainApi.getSavedMovies()])
-    .then(([user, data]) => {
-      // console.log(data.data)
-      setCurrentUser(user);
-      setMoviesSave(data.data);
+    if (isLoggedIn) {
+      mainApi
+        .getSavedMovies()
+        .then((moviesData) => {
+          // const ownSavedMovies = moviesData.filter(
+          //   (movie) => movie.owner === currentUser._id
+          // );
+          // localStorage.setItem("savedMovies", JSON.stringify(ownSavedMovies));
+          setSavedMovies(moviesData.data);
 
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  }, []);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  }, [currentUser._id, setSavedMovies, token]);
 
-  // console.log(moviesSave)
+  // console.log(savedMovies)
 
   return (
 
@@ -402,12 +365,12 @@ function App() {
             <Route
               path="/signup" 
               element={
-                <Register isLoggedIn={isLoggedIn} onRegister={handleRegister} isLoading={isLoading}/>}
+                <Register isLoggedIn={isLoggedIn} onRegister={handleRegister} isLoading={isLoading} />}
             />
             <Route 
               path="/signin"
               element={
-                <Login isLoggedIn={isLoggedIn} onAuth={handleLogin} isLoading={isLoading}/>} 
+                <Login isLoggedIn={isLoggedIn} onAuth={handleLogin} isLoading={isLoading} />} 
             />
           </>)
         : null}
@@ -417,11 +380,9 @@ function App() {
             <ProtectedRoute
             element={Movies }
             isLoggedIn={isLoggedIn}
-            handleLikeClick={handleMovieLike}
-            checkLike={moviesSave}
-            handleDislikeClick={handleMovieDelete}
-            handleSearch={handleSearch}
-            moviesSection={movies}
+            savedMovies={savedMovies}
+            setSavedMovies={setSavedMovies}
+
             />}
         />
         <Route
@@ -430,11 +391,8 @@ function App() {
             <ProtectedRoute
             element={SavedMovies }
             isLoggedIn={isLoggedIn}
-            moviesSection={moviesSave} 
-            handleSearch={handleSearch}
-
-            checkLike={moviesSave}
-            handleDislikeClick={handleMovieDelete}
+            savedMovies={savedMovies}
+            setSavedMovies={setSavedMovies}
 
             />}
         />
@@ -446,6 +404,7 @@ function App() {
             isLoggedIn={isLoggedIn}
             isLoading={isLoading}
             signOut={onSignOut}
+            onEditProfile={handleEditProfile} 
             />}
         />
         <Route
@@ -453,13 +412,13 @@ function App() {
           element={<NotFound/>}
         />
         <Route path="*" element={<Navigate to='/404' replace />}/>
-
         
         {/* <Route path="/signup" element={<Register onRegister={handleRegister} isLoggedIn={isLoggedIn} />} />
           <Route path="/signin" element={<Login onAuth={handleLogin} isLoggedIn={isLoggedIn} />} />
           <Route path="*" element={isLoggedIn ? <Navigate to="/" replace /> : <Navigate to="/sign-in" replace />} /> */}
         </Routes>
-        {/* <ErrorMessage errActive={isErrorMessageOpen} errHide={handleErrorClick} errText={ErrorMessageText}/> */}
+
+        <ErrorPopup errVisible={isErrorMessageOpen} errorText={ErrorMessageText}/>
         {/* <Preloader active={''}/> */}
       </CurrentUserContext.Provider>
     </div>

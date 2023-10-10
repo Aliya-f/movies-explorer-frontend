@@ -77,14 +77,14 @@ class MainApi {
   }
 
   // редактировать данные профиля
-  setUserInfo(item) {
+  setUserInfo({email, name}) {
     return fetch(`${this.baseUrl}/users/me`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
         authorization: `Bearer ${localStorage.getItem('JWT')}`
       },
-      body: JSON.stringify(item),
+      body: JSON.stringify({email, name}),
     })
       .then(this._checkResponse);
   }
@@ -109,7 +109,7 @@ class MainApi {
   }
 
   // добавление фильма
-  addMovie(data) {
+  addMovie(movieInfo) {
     return fetch(`${this.baseUrl}/movies`, {
       method: 'POST',
       headers: {
@@ -117,17 +117,18 @@ class MainApi {
         authorization: `Bearer ${localStorage.getItem('JWT')}`,
       },
       body: JSON.stringify({
-        country: data.country,
-        director: data.director,
-        duration: data.duration,
-        year: data.year,
-        description: data.description,
-        nameRU: data.nameRU,
-        nameEN: data.nameEN,
-        thumbnail: `https://api.nomoreparties.co${data.image.formats.thumbnail.url}`,
-        trailer: data.trailerLink,
-        image: `https://api.nomoreparties.co${data.image.url}`, 
-        movieId: data.id,
+        ...movieInfo,
+        // country: data.country,
+        // director: data.director,
+        // duration: data.duration,
+        // year: data.year,
+        // description: data.description,
+        // nameRU: data.nameRU,
+        // nameEN: data.nameEN,
+        // thumbnail: `https://api.nomoreparties.co${data.image.formats.thumbnail.url}`,
+        // trailer: data.trailerLink,
+        // image: `https://api.nomoreparties.co${data.image.url}`, 
+        // movieId: data.id,
 
       })
     })

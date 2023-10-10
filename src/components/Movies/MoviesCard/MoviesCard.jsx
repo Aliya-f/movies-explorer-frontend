@@ -1,40 +1,74 @@
+import React, { useState, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
 import './MoviesCard.css'
 
-// const baseUrl = 'https://api.nomoreparties.co';
+const baseUrl = 'https://api.nomoreparties.co';
 
-function MoviesCard({ moviesSection, nameRU, duration, image, isSaved, id, _id, checkLike, trailerLink, handleLikeClick, handleDislikeClick }) {
+function MoviesCard({   onSavedPage,
+  savedMovies,
+  onSaveHandler,
+  onDeleteHandler,
+  ...props }) {
   // const { nameRU, duration, image, isSaved, trailerLink } = movie;
   // const location = useLocation();
   // console.log(movie)
-
-  const imageUrl = () => {
-    if (typeof image === 'object') {
-      return image === null ? `` : `https://api.nomoreparties.co${image.url}`;
-    }
-    if (typeof image === 'string') {
-      return image;
-    }
-  } 
+  const [isSaved, setIsSaved] = useState(false);
+  // const imageUrl = () => {
+  //   if (typeof image === 'object') {
+  //     return props.image === null ? `` : `https://api.nomoreparties.co${props.image.url}`;
+  //   }
+  //   if (typeof image === 'string') {
+  //     return props.image;
+  //   }
+  // } 
 // console.log(checkLike)
+useEffect(() => {
+  // окрашиваем кнопку лайка, если он фильм нашелся в сохраненных
+  if (savedMovies.some((movie) => movie.movieId === props.id)) {
+    setIsSaved(true);
+  }
+}, [savedMovies, props.id]);
 
-
-  const isLiked = () => {
-    // console.log(checkLike)
-    return checkLike.some((item) => item.movieId === id)
+const handleSave = () => {
+  // создаем объект фильма для сохранения
+  // добавляем дефолтные значения
+  const movieData = {
+    country: props.country ,
+    director: props.director ,
+    duration: props.duration,
+    year: props.year ,
+    description: props.description ,
+    image: baseUrl + props.image.url ,
+    trailer: props.trailerLink ,
+    nameRU: props.nameRU,
+    nameEN: props.nameEN,
+    thumbnail: `https://api.nomoreparties.co${props.image.formats.thumbnail.url}`,
+    movieId: props.id,
   };
+  onSaveHandler(movieData, setIsSaved);
+};
 
-  function handleLike() {
-    handleLikeClick(id)
-  }
+const handleDelete = () => {
+  // условие для удаления с обоих страниц
+  // так как ключи в объектах отличаются
+  onDeleteHandler(props._id || props.id, setIsSaved);
+};
+  // const isLiked = () => {
+  //   // console.log(checkLike)
+  //   return checkLike.some((item) => item.movieId === id)
+  // };
 
-  function handleDislike() {
-    if (id) {
-      handleDislikeClick(id)
-    } else if (_id) {
-      handleDislikeClick(_id)
-    }
-  }
+  // function handleLike() {
+  //   handleLikeClick(id)
+  // }
+
+  // function handleDislike() {
+  //   if (id) {
+  //     handleDislikeClick(id)
+  //   } else if (_id) {
+  //     handleDislikeClick(_id)
+  //   }
+  // }
 
   // function handleClickLike() {
   //   if (isSaved) {
@@ -55,9 +89,9 @@ function MoviesCard({ moviesSection, nameRU, duration, image, isSaved, id, _id, 
   return (
     <li className="card">
       <div className="card__container">
-      <a href={trailerLink} target="_blank"><img className="card__image" src={imageUrl()} alt={nameRU} /></a>
+      <a href={props.trailerLink} target="_blank"><img className="card__image" src={onSavedPage ? props.image : baseUrl + props.image.url} alt={props.nameRU} /></a>
         <div className="card__title-container">
-          <h2 className="card__title">{nameRU}</h2>
+          <h2 className="card__title">{props.nameRU}</h2>
         {/*  {location.pathname === '/saved-movies' && (
           <button
           type='button'
@@ -80,12 +114,12 @@ function MoviesCard({ moviesSection, nameRU, duration, image, isSaved, id, _id, 
         />
         )} */}
 
-          {!isSaved
+          {!onSavedPage
           ? (<button type="button" 
-            onClick={!isLiked() ? handleLike : handleDislike} className={isLiked() ? 'card__like-button card__like-button_active' : 'card__like-button' }></button>)
-          : (<button type="button" onClick={handleDislike} className='card__like-button card__like-button_delete' ></button>)}
+            onClick={!isSaved ? handleSave : handleDelete} className={isSaved ? 'card__like-button card__like-button_active' : 'card__like-button' }></button>)
+          : (<button type="button" onClick={handleDelete} className='card__like-button card__like-button_delete' ></button>)}
         </div>
-        <p className="card__subtitle">{getDuration(duration)}</p>        
+        <p className="card__subtitle">{getDuration(props.duration)}</p>        
       </div>
 
     </li>

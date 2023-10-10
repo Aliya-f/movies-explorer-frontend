@@ -3,15 +3,19 @@ import './SearchForm.css';
 import FilterCheckbox from '../../FilterCheckbox/FilterCheckbox';
 // import '../../FilterCheckbox/FilterCheckbox';
 
-function SearchForm({ startSearch, onSearch, onCheckbox }) {
+function SearchForm({ submitHandler, checkbox,
+  setCheckbox}) {
   const [data, setData] = React.useState('');
   const [showError, setShowError] = React.useState(false);
 
-
   const handleChange = (event) => {
     setShowError(false);
+    console.log(event.target.value)
     setData(event.target.value);
+    
   };
+
+  const onClickCheckBox = () => setCheckbox(!checkbox);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -19,14 +23,8 @@ function SearchForm({ startSearch, onSearch, onCheckbox }) {
     if (data === '') {
       return setShowError(prevShowError => !prevShowError)
     }
-    startSearch(data)
-    onSearch()
+    submitHandler(checkbox, data)
   }; 
-
-  const handleChangeFilter = (event) => {
-    onCheckbox(event.target.checked);
-  };
-  // console.log(showError)
 
   return (
     <section className="search-form">
@@ -52,7 +50,8 @@ function SearchForm({ startSearch, onSearch, onCheckbox }) {
                 type="checkbox" 
                 name="filter-checkbox" 
                 id="filter-checkbox__input" className="filter-checkbox__input" 
-                onChange={handleChangeFilter}
+                checked={checkbox}
+                onChange={onClickCheckBox}
                 />
                 <span className="filter-checkbox__fake-input">
                   <span className="filter-checkbox__fake-circle"></span>
@@ -61,7 +60,7 @@ function SearchForm({ startSearch, onSearch, onCheckbox }) {
             </div>
             <p className="filter-checkbox__text">Короткометражки</p>
           </div>
-        <FilterCheckbox checkbox={onCheckbox}/>
+        <FilterCheckbox checkbox={checkbox} setCheckbox={setCheckbox} />
         </form>
       </div>
     </section>

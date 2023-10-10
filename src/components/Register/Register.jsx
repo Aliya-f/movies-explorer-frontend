@@ -5,7 +5,7 @@ import logo from '../../images/logo.svg';
 import './Register.css';
 import {validateMail, validateName, validatePassword} from '../../hooks/useFormValid';
 
-function Register({ onRegister, isLoggedIn }) {
+function Register({ onRegister, isLoggedIn, showError }) {
   const navigate = useNavigate();
   const [data, setData] = React.useState({
     email: '',

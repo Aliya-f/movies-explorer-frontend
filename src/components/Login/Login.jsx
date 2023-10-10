@@ -2,9 +2,9 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../images/logo.svg';
 import './Login.css';
-import {validateMail, validateName, validatePassword} from '../../hooks/useFormValid';
+import {validateMail, validatePassword} from '../../hooks/useFormValid';
 
-function Login({ onAuth, isLoggedIn }) {
+function Login({ onAuth, isLoggedIn, showError }) {
   const [data, setData] = React.useState({
     password: '',
     email: '',

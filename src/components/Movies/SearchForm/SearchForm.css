@@ -22,7 +22,7 @@
   height: 72px;
   background: #2F2F2F;
   border-radius: 9px;
-  padding: 14px 40px;
+  padding: 14px 45px;
   font-weight: 400;
   font-size: 18px;
   line-height: 1.05;
@@ -215,7 +215,7 @@ padding-left: 20px;
   }
    
   .search-form__input {
-    padding: 14px 5px;
+    padding: 14px 15px;
     font-size: 11px;
     line-height: 1.05;
     background-image: none;

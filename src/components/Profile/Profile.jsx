@@ -3,27 +3,25 @@ import { Link } from 'react-router-dom';
 import Header from "../Header/Header";
 import "./Profile.css";
 import { CurrentUserContext } from '../../contexts/CurrentUserContext.jsx';
-import {validateMail, validateName, validatePassword} from '../../hooks/useFormValid';
+import {validateMail, validateName} from '../../hooks/useFormValid';
 
-function Profile({ onUpdateUser, isLoggedIn, signOut }) {
-  // Подписка на контекст
+function Profile({ onEditProfile, isLoggedIn, signOut }) {
   const currentUser = React.useContext(CurrentUserContext);
   // Стейты, в которых содержится значение инпута
   const [data, setData] = React.useState({
     email: currentUser.email,
     name: currentUser.name,
-  })
-  
+  })  
   const [errors, setErrors] = React.useState({});
   const [isValid, setIsValid] = React.useState(false);
-  const [isNameValid, setNameValid] = React.useState(false)
-  const [isMailValid, setMailValid] = React.useState(false);
-  
+  const [isNameValid, setIsNameValid] = React.useState(false)
+  const [isMailValid, setIsMailValid] = React.useState(false);
+  console.log(currentUser)
   // После загрузки текущего пользователя из API его данные будут использованы в управляемых компонентах.
-  // React.useEffect(() => {
-  //   setName(currentUser.name);
-  //   setEmail(currentUser.email);
-  // }, [currentUser]);
+  React.useEffect(() => {
+    setData(currentUser.name, currentUser.email);
+    // setEmail(currentUser.email);
+  }, [currentUser]);
   
   // Обработчик изменения инпута обновляет стейт
   const handleChange = (event) => {
@@ -33,33 +31,22 @@ function Profile({ onUpdateUser, isLoggedIn, signOut }) {
       ...data,
       [name]: value,
     });
-
     if (name === 'name') {
-      setNameValid(validateName(target, name, value));
+      setIsNameValid(validateName(target, name, value));
     } else if (name === 'email') {
-      setMailValid(validateMail(target, name, value));
+      setIsMailValid(validateMail(target, name, value));
     }
-
     setErrors({
       ...errors, 
       [name]: target.validationMessage,
     });
   };
 
-  const resetForm = React.useCallback(
-    (newErrors = {}, newIsValid = false) => {
-      setErrors(newErrors);
-      setIsValid(newIsValid);
-    },
-    [setErrors, setIsValid]
-  );
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Передаём значения управляемых компонентов во внешний обработчик
     const { email, name } = data;
-    onUpdateUser(email, name);
-    resetForm();
+    onEditProfile({ email, name });
   };
 
   React.useEffect(() => {
@@ -70,6 +57,7 @@ function Profile({ onUpdateUser, isLoggedIn, signOut }) {
     }
   }, [isMailValid, isNameValid])
 
+  // console.log(currentUser)
 
   return (
     <>
@@ -109,7 +97,9 @@ function Profile({ onUpdateUser, isLoggedIn, signOut }) {
                  {isMailValid ? null : <span className="profile__error" id="email-error" >{errors.email} </span> }              
               </fieldset>
               <div className='profile__buttons'>
-                <button className={isValid ?`profile__edit-btn` : `profile__edit-btn profile__edit-btn_disable` }type="submit">Редактировать</button>
+
+                {isValid ? <button className='profile__edit-btn' type="submit" >Редактировать</button>
+                 : <button className='profile__edit-btn profile__edit-btn_disable' type="submit" disabled>Редактировать</button>}
                 <Link to='/' className='profile__exit'  onClick={signOut}>Выйти из аккаунта</Link>
               </div>              
             </form>

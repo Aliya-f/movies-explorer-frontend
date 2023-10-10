@@ -1,16 +1,19 @@
 import React from 'react';
 import './FilterCheckbox.css';
 
-function FilterCheckbox({checkbox}) {
+function FilterCheckbox({ checkbox, setCheckbox}) {
 
-  const handleChange = (event) => {
-    checkbox(event.target.checked);
-  };
+  const onClickCheckBox = () => setCheckbox(!checkbox);
 
   return (
       <div className="filter-checkbox-mobile">
         <label htmlFor="filter-checkbox-mobile__input" className="filter-checkbox-mobile__label">
-          <input type="checkbox" name="filter-checkbox-mobile" id="filter-checkbox-mobile__input" className="filter-checkbox-mobile__input" onChange={handleChange}/>
+          <input 
+            type="checkbox" 
+            name="filter-checkbox-mobile" id="filter-checkbox-mobile__input"
+            className="filter-checkbox-mobile__input"                checked={checkbox}
+            onChange={onClickCheckBox}
+          />
           <span className="filter-checkbox-mobile__fake-input">
             <span className="filter-checkbox-mobile__fake-circle"></span>
           </span>
