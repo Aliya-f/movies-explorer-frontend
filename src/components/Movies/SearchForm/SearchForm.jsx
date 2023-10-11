@@ -1,7 +1,6 @@
 import React from 'react';
 import './SearchForm.css';
 import FilterCheckbox from '../../FilterCheckbox/FilterCheckbox';
-// import '../../FilterCheckbox/FilterCheckbox';
 
 function SearchForm({ submitHandler, checkbox,
   setCheckbox}) {

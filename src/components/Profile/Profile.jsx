@@ -16,7 +16,7 @@ function Profile({ onEditProfile, isLoggedIn, signOut }) {
   const [isValid, setIsValid] = React.useState(false);
   const [isNameValid, setIsNameValid] = React.useState(false)
   const [isMailValid, setIsMailValid] = React.useState(false);
-  console.log(currentUser)
+  // console.log(currentUser)
   // После загрузки текущего пользователя из API его данные будут использованы в управляемых компонентах.
   React.useEffect(() => {
     setData(currentUser.name, currentUser.email);
@@ -47,6 +47,7 @@ function Profile({ onEditProfile, isLoggedIn, signOut }) {
     // Передаём значения управляемых компонентов во внешний обработчик
     const { email, name } = data;
     onEditProfile({ email, name });
+    console.log({ email, name }) // показывает новые данные
   };
 
   React.useEffect(() => {

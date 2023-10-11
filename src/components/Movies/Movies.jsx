@@ -65,7 +65,7 @@ function Movies({  isLoggedIn, savedMovies, setSavedMovies, cardErrorHandler}) {
     }
   }, [shortFilmsCheck, cardsCount, errorMessage]);
 
-  // сохраниение чекбокса
+  // сохранение чекбокса
   useEffect(() => {
     if (queryData) {
       const newQueryData = JSON.parse(queryData);
@@ -78,7 +78,7 @@ function Movies({  isLoggedIn, savedMovies, setSavedMovies, cardErrorHandler}) {
   const submitHandler = async (isOnlyShorts, searchQuery) => {
     try {
       setIsLoading(true);
-      // достаем массив фильмов фильмы
+      // массив фильмов
       if (!allMovies) {
         const allMoviesData = await MoviesApi.getMovies();
         localStorage.setItem("allMoviesData", JSON.stringify(allMoviesData));
@@ -191,7 +191,7 @@ function Movies({  isLoggedIn, savedMovies, setSavedMovies, cardErrorHandler}) {
           onDeleteHandler={deleteMovie}
           onSavedPage={false}
           />)}
-          {movies.length < 1 && (
+          {movies.length === 0 && (
             <p className="movies-cardlist__alert">{errorMessage || notFound}</p>
           )}
           {shortFilmsCheck

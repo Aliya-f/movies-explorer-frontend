@@ -4,7 +4,7 @@ import logo from '../../images/logo.svg';
 import './Login.css';
 import {validateMail, validatePassword} from '../../hooks/useFormValid';
 
-function Login({ onAuth, isLoggedIn, showError }) {
+function Login({ onAuth, isLoggedIn}) {
   const [data, setData] = React.useState({
     password: '',
     email: '',

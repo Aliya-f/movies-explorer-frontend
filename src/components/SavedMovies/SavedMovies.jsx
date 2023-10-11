@@ -42,7 +42,7 @@ function SavedMovies({ isLoggedIn,  savedMovies,
       .deleteMovie(movieId, token)
       .then(() => {
         likeHandler(false);
-        // при удалении меняем оба состояния, чтобы карточка не отобразилась
+        // удаление карточки из 2х стейтов
         setSavedMovies((state) => state.filter((m) => m._id !== movieId));
         setMoviesForRender((state) => state.filter((m) => m._id !== movieId));
       })
@@ -71,7 +71,7 @@ function SavedMovies({ isLoggedIn,  savedMovies,
         setNotFound("Ничего не найдено");
       }
     }
-  }
+  } 
 
   return (
     <>

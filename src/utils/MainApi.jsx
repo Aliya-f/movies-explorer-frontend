@@ -77,25 +77,17 @@ class MainApi {
   }
 
   // редактировать данные профиля
-  setUserInfo({email, name}) {
+  setUserInfo(data) {
     return fetch(`${this.baseUrl}/users/me`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
         authorization: `Bearer ${localStorage.getItem('JWT')}`
       },
-      body: JSON.stringify({email, name}),
+      body: JSON.stringify(data),
     })
       .then(this._checkResponse);
   }
-
-  // отрисовка массива фильмов
-  // getMovies() {
-  //   return fetch(`${this._baseUrl}/movies`, {
-  //     method: 'GET',
-  //   })
-  //     .then(this._checkResponse);
-  // }
 
   // отрисовка сохраненных фильмов
   getSavedMovies() {
@@ -118,18 +110,6 @@ class MainApi {
       },
       body: JSON.stringify({
         ...movieInfo,
-        // country: data.country,
-        // director: data.director,
-        // duration: data.duration,
-        // year: data.year,
-        // description: data.description,
-        // nameRU: data.nameRU,
-        // nameEN: data.nameEN,
-        // thumbnail: `https://api.nomoreparties.co${data.image.formats.thumbnail.url}`,
-        // trailer: data.trailerLink,
-        // image: `https://api.nomoreparties.co${data.image.url}`, 
-        // movieId: data.id,
-
       })
     })
       .then(this._checkResponse);
@@ -148,6 +128,6 @@ class MainApi {
 }
 
 export const mainApi = new MainApi({
-  baseUrl: 'http://localhost:3001',
-  // baseUrl: ''
+  // baseUrl: 'http://localhost:3001',
+  baseUrl: 'api.moviesproject.nomoredomainsicu.ru'
 });

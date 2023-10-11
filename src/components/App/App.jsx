@@ -285,12 +285,12 @@ function App() {
   }, []);
 
   // редактировать профиль
-  function handleEditProfile({email, name}) {
-    mainApi
-    .setUserInfo(email, name)
+  function handleEditProfile(data) {
+    return mainApi
+    .setUserInfo(data)
     .then((data) => {
-      console.log({email, name}) //указанные данные выводит
-      console.log(data) // выводятся прежние данные, не изменяя
+      // console.log(data) //указанные данные выводит
+      // console.log(data) // выводятся прежние данные, не изменяя
       setCurrentUser(data);
       showError('Данные успешно изменены!');
     })
@@ -314,29 +314,12 @@ function App() {
     })
   }
 
-// React.useEffect(() => {
-
-//     MoviesApi
-//       .getMovies()
-//         .then((res) => {
-//           console.log(res)
-//           setMovies(res);
-//         })
-//         .catch((err) => console.log(err));
-
-// }, []);
-
-  
   // получаем список фильмов, сохраненных пользователем
   React.useEffect(() => {
     if (isLoggedIn) {
       mainApi
         .getSavedMovies()
         .then((moviesData) => {
-          // const ownSavedMovies = moviesData.filter(
-          //   (movie) => movie.owner === currentUser._id
-          // );
-          // localStorage.setItem("savedMovies", JSON.stringify(ownSavedMovies));
           setSavedMovies(moviesData.data);
 
         })
