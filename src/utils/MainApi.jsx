@@ -20,6 +20,7 @@ class MainApi {
         Accept: "application/json*",
         "Content-Type": "application/json",
         authorization : `Bearer ${token}`
+        
       }
     }).then((res) => this._checkResponse(res));
   }
@@ -129,5 +130,5 @@ class MainApi {
 
 export const mainApi = new MainApi({
   // baseUrl: 'http://localhost:3001',
-  baseUrl: 'http://api.moviesproject.nomoredomainsicu.ru'
+  baseUrl: 'https://api.moviesproject.nomoredomainsicu.ru'
 });
