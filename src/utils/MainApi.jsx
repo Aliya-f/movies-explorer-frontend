@@ -129,5 +129,5 @@ class MainApi {
 
 export const mainApi = new MainApi({
   // baseUrl: 'http://localhost:3001',
-  baseUrl: 'api.moviesproject.nomoredomainsicu.ru'
+  baseUrl: 'http://api.moviesproject.nomoredomainsicu.ru'
 });

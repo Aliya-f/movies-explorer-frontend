@@ -12,4 +12,4 @@ npm run start — запускает сервер
 https://www.figma.com/file/6FMWkB94wE7KTkcCgUXtnC/light-1?type=design&node-id=1-6633&mode=design&t=z5GXiOTVCobqHBqt-0
 
 
-https://api.moviesproject.nomoredomainsicu.ru
+https://moviesproject.nomoredomainsicu.ru
