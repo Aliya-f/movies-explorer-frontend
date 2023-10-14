@@ -3,15 +3,22 @@ import './SearchForm.css';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 
 function SearchForm({ submitHandler, checkbox,
-  setCheckbox}) {
+  setCheckbox, lastSearchQuery,}) {
   const [data, setData] = React.useState('');
   const [showError, setShowError] = React.useState(false);
 
-  const handleChange = (event) => {
+  React.useEffect(() => {
+    // последний поиск
+    if (lastSearchQuery) {
+      setData({ ...data, "search": lastSearchQuery });
+    }
+  }, [lastSearchQuery, setData]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
     setShowError(false);
-    console.log(event.target.value)
-    setData(event.target.value);
-    
+    setData({ ...data, [name]: value });
+    console.log(data)
   };
 
   const onClickCheckBox = () => setCheckbox(!checkbox);
@@ -22,7 +29,7 @@ function SearchForm({ submitHandler, checkbox,
     if (data === '') {
       return setShowError(prevShowError => !prevShowError)
     }
-    submitHandler(checkbox, data)
+    submitHandler(checkbox, data["search"])
   }; 
 
   return (
@@ -35,7 +42,7 @@ function SearchForm({ submitHandler, checkbox,
             placeholder="Фильм" 
             className="search-form__input"
             // required
-            value={data || ''}
+            value={data["search"] || ""}
             onChange={handleChange}
             
           />

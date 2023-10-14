@@ -44,8 +44,6 @@ function Movies({  isLoggedIn, savedMovies, setSavedMovies, cardErrorHandler}) {
   let filteredMovies = JSON.parse(queryData)?.filteredMovies || [];
   let filteredShorts = JSON.parse(queryData)?.filteredShorts || [];
 
-
-  
   // поиск фильмов
   const filterMovies = (searchQuery, moviesArray) => {
     return moviesArray.filter((movie) =>
@@ -57,6 +55,14 @@ function Movies({  isLoggedIn, savedMovies, setSavedMovies, cardErrorHandler}) {
  const findOnlyShorts = (movies) => {
     return movies.filter((movie) => movie.duration < 40);
   };
+
+    // получаем последний запрос и состояние чекбокса
+    useEffect(() => {
+      if (queryData) {
+        setLastSearchQuery(JSON.parse(queryData)?.searchQuery);
+        setShortFilmsCheck(JSON.parse(queryData)?.isOnlyShortFilms);
+      }
+    }, []);
 
 
   // сохраниение подборки фильмов
@@ -76,6 +82,16 @@ function Movies({  isLoggedIn, savedMovies, setSavedMovies, cardErrorHandler}) {
       localStorage.setItem("queryData", JSON.stringify(newQueryData));
     }
   }, [shortFilmsCheck, queryData]);
+
+
+  useEffect(() => {
+    window.addEventListener("beforeunload", removeAllMoviesData);
+    return () => {
+      window.removeEventListener("beforeunload", removeAllMoviesData);
+    };
+  }, []);
+  
+  const removeAllMoviesData = () => localStorage.removeItem("allMoviesData");
 
   // поиск всех фильмов
   const submitHandler = async (isOnlyShorts, searchQuery) => {
@@ -184,6 +200,7 @@ function Movies({  isLoggedIn, savedMovies, setSavedMovies, cardErrorHandler}) {
           checkbox={shortFilmsCheck}
           setCheckbox={setShortFilmsCheck}
           isLoading={isLoading}
+          lastSearchQuery={lastSearchQuery}
           onSavedPage={false}
           />
         {isLoading ? (

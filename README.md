@@ -16,3 +16,4 @@ https://moviesproject.nomoredomainsicu.ru
 
 https://api.moviesproject.nomoredomainsicu.ru
 
+https://github.com/Aliya-f/movies-explorer-frontend/pull/2
