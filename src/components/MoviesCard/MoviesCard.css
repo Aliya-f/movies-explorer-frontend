@@ -51,7 +51,7 @@
   cursor: pointer;
   background: #2F2F2F;
   border-radius: 50%;
-  background-image: url(../../../images/icon__like-off.svg);
+  background-image: url(../../images/icon__like-off.svg);
   background-repeat: no-repeat;
   background-position: center;
   transition: opacity 0.5s ease;
@@ -62,11 +62,11 @@
 }
 
 .card__like-button_active {
-  background-image: url(../../../images/icon__like-on.svg);
+  background-image: url(../../images/icon__like-on.svg);
 }
 
 .card__like-button_delete {
-  background-image: url(../../../images/icon__deletefilm.svg);
+  background-image: url(../../images/icon__deletefilm.svg);
 }
 
 .card__subtitle {

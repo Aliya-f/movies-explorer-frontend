@@ -4,6 +4,7 @@ import Header from "../Header/Header";
 import "./Profile.css";
 import { CurrentUserContext } from '../../contexts/CurrentUserContext.jsx';
 import {validateMail, validateName} from '../../hooks/useFormValid';
+// import Preloader from "../Preloader/Preloader"
 
 function Profile({ onEditProfile, isLoggedIn, signOut }) {
   const currentUser = React.useContext(CurrentUserContext);
@@ -12,16 +13,22 @@ function Profile({ onEditProfile, isLoggedIn, signOut }) {
     email: currentUser.email,
     name: currentUser.name,
   })  
+
   const [errors, setErrors] = React.useState({});
   const [isValid, setIsValid] = React.useState(false);
   const [isNameValid, setIsNameValid] = React.useState(false)
   const [isMailValid, setIsMailValid] = React.useState(false);
   // console.log(currentUser)
+
   // После загрузки текущего пользователя из API его данные будут использованы в управляемых компонентах.
   React.useEffect(() => {
-    setData(currentUser.name, currentUser.email);
-    // setEmail(currentUser.email);
-  }, [currentUser]);
+    if (isLoggedIn) {
+      setData({
+        name: currentUser.name,
+        email: currentUser.email
+      });
+    }
+  }, [currentUser.name, currentUser.email, isLoggedIn]);
   
   // Обработчик изменения инпута обновляет стейт
   const handleChange = (event) => {
@@ -33,8 +40,10 @@ function Profile({ onEditProfile, isLoggedIn, signOut }) {
     });
     if (name === 'name') {
       setIsNameValid(validateName(target, name, value));
+      setIsMailValid(true)
     } else if (name === 'email') {
       setIsMailValid(validateMail(target, name, value));
+      setIsNameValid(true)
     }
     setErrors({
       ...errors, 
@@ -47,19 +56,20 @@ function Profile({ onEditProfile, isLoggedIn, signOut }) {
     // Передаём значения управляемых компонентов во внешний обработчик
     const { email, name } = data;
     onEditProfile({ email, name });
-    console.log({ email, name }) // показывает новые данные
   };
 
+  const i = ((currentUser.name === data.name) && (currentUser.email === data.email))
+
+  // console.log(isMailValid, isNameValid)
+
   React.useEffect(() => {
-    if (isMailValid && isNameValid) {
+    if (isMailValid && isNameValid && !i) {
       setIsValid(true)
     } else {
       setIsValid(false)
     }
   }, [isMailValid, isNameValid])
-
-  // console.log(currentUser)
-
+  
   return (
     <>
       <Header isLoggedIn={isLoggedIn}/>

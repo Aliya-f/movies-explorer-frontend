@@ -118,7 +118,7 @@ function Register({ onRegister, isLoggedIn }) {
                {isPasswordValid ? null : <span className="login__error" id="password-error">{errors.password}</span>}
             </div>
             <div className="login__container_elem">
-              <button className={isValid ? "login__submit-button" : "login__submit-button login__submit-button_disabled"} type="submit" >Зарегистрироваться</button>        
+              <button className={isValid ? "login__submit-button" : "login__submit-button login__submit-button_disabled"}  disabled={!isValid} type="submit" >Зарегистрироваться</button>        
               <p className="login__question">Уже зарегистрированы? 
                 <Link to="/signin" className="login__link">Войти</Link>
               </p>

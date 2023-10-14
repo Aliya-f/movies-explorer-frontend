@@ -103,7 +103,7 @@ function Login({ onAuth, isLoggedIn}) {
                 {isPasswordValid ? null : <span className="login__error" id="password-error">{errors.password}</span>}
               </div>  
               <div className="login__container_elem">
-                <button className={isValid ? "login__submit-button" : "login__submit-button login__submit-button_disabled"}type="submit" >Войти</button>     
+                <button className={isValid ? "login__submit-button" : "login__submit-button login__submit-button_disabled"}type="submit" disabled={!isValid}>Войти</button>     
                 <p className="login__question">Ещё не зарегистрированы?
                 <Link to="/signup" className="login__link">Регистрация</Link>
                 </p>

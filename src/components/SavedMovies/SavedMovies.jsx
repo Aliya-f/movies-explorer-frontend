@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import Header from '../Header/Header';
-import SearchForm from '../Movies/SearchForm/SearchForm';
-import MoviesCardList from '../Movies/MoviesCardList/MoviesCardList';
+import SearchForm from '../SearchForm/SearchForm';
+import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
 import './SavedMovies.css';
 // import Preloader from "../Preloader/Preloader"
@@ -80,7 +80,8 @@ function SavedMovies({ isLoggedIn,  savedMovies,
         <SearchForm             
         submitHandler={submitHandler}
         checkbox={shortFilmsCheck}
-        setCheckbox={setShortFilmsCheck}/>
+        setCheckbox={setShortFilmsCheck}
+        onSavedPage={true}/>
         {moviesForRender && !message && (
           <MoviesCardList 
           allMovies={moviesForRender}

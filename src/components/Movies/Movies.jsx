@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
-import SearchForm from './SearchForm/SearchForm';
-import MoviesCardList from '../Movies/MoviesCardList/MoviesCardList';
+import SearchForm from '../SearchForm/SearchForm';
+import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import {mainApi} from '../../utils/MainApi';
 import './Movies.css';
 // import {initialCards} from '../../utils/initialCards';
@@ -20,6 +20,7 @@ function Movies({  isLoggedIn, savedMovies, setSavedMovies, cardErrorHandler}) {
   const [shortFilmsCheck, setShortFilmsCheck] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [notFound, setNotFound] = useState("");
+  const [lastSearchQuery, setLastSearchQuery] = useState("");
 
   const width = useWidth();
   const queryData = localStorage.getItem("queryData");
@@ -43,6 +44,8 @@ function Movies({  isLoggedIn, savedMovies, setSavedMovies, cardErrorHandler}) {
   let filteredMovies = JSON.parse(queryData)?.filteredMovies || [];
   let filteredShorts = JSON.parse(queryData)?.filteredShorts || [];
 
+
+  
   // поиск фильмов
   const filterMovies = (searchQuery, moviesArray) => {
     return moviesArray.filter((movie) =>
@@ -180,7 +183,9 @@ function Movies({  isLoggedIn, savedMovies, setSavedMovies, cardErrorHandler}) {
           submitHandler={submitHandler}
           checkbox={shortFilmsCheck}
           setCheckbox={setShortFilmsCheck}
-          isLoading={isLoading}/>
+          isLoading={isLoading}
+          onSavedPage={false}
+          />
         {isLoading ? (
           <Preloader isLoading={isLoading}/>
           ) : (
