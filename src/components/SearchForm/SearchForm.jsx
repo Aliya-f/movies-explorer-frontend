@@ -3,12 +3,12 @@ import './SearchForm.css';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 
 function SearchForm({ submitHandler, checkbox,
-  setCheckbox, lastSearchQuery,}) {
+  setCheckbox, lastSearchQuery, isLoading}) {
   const [data, setData] = React.useState('');
   const [showError, setShowError] = React.useState(false);
 
   React.useEffect(() => {
-    // последний поиск
+    // подгрузка данных последнего поиска
     if (lastSearchQuery) {
       setData({ ...data, "search": lastSearchQuery });
     }
@@ -18,7 +18,6 @@ function SearchForm({ submitHandler, checkbox,
     const { name, value } = e.target;
     setShowError(false);
     setData({ ...data, [name]: value });
-    console.log(data)
   };
 
   const onClickCheckBox = () => setCheckbox(!checkbox);
@@ -47,7 +46,7 @@ function SearchForm({ submitHandler, checkbox,
             
           />
           <div className="search-form__filter-checkbox-container">         
-            <button type="submit" className="search-form__submit-button">Найти</button>
+            <button type="submit" className="search-form__submit-button" disabled={isLoading}>Найти</button>
             <span className={showError ? `search-form__error` : `search-form__error search-form__error_disable`}>Нужно ввести ключевое слово</span>
             <div className="search-form__line"></div>
             <div className="filter-checkbox">
@@ -56,6 +55,7 @@ function SearchForm({ submitHandler, checkbox,
                 type="checkbox" 
                 name="filter-checkbox" 
                 id="filter-checkbox__input" className="filter-checkbox__input" 
+                disabled={isLoading}
                 checked={checkbox}
                 onChange={onClickCheckBox}
                 />
@@ -66,7 +66,7 @@ function SearchForm({ submitHandler, checkbox,
             </div>
             <p className="filter-checkbox__text">Короткометражки</p>
           </div>
-        <FilterCheckbox checkbox={checkbox} setCheckbox={setCheckbox} />
+        <FilterCheckbox checkbox={checkbox} setCheckbox={setCheckbox} isLoading={isLoading}/>
         </form>
       </div>
     </section>

@@ -8,7 +8,6 @@ function MoviesCardList({   allMovies,
   onDeleteHandler,
   savedMovies,}) {
   
-    // console.log(savedMovies)
   return (
     <section className="movies-cardlist">
       <ul className='movies-cardlist__container'>

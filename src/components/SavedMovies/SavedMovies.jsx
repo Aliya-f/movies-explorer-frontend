@@ -7,16 +7,19 @@ import './SavedMovies.css';
 // import Preloader from "../Preloader/Preloader"
 import {mainApi} from '../../utils/MainApi';
 
-function SavedMovies({ isLoggedIn,  savedMovies,
+function SavedMovies({ 
+  isLoggedIn,  
+  savedMovies,
   setSavedMovies,
-  cardErrorHandler, message}) {
+  cardErrorHandler, 
+  message}) {
   const [shortFilmsCheck, setShortFilmsCheck] = useState(false);
   // стейт сохраненных карточек
   const [moviesForRender, setMoviesForRender] = useState(savedMovies);
   const token = localStorage.getItem("token");
-  // const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [notFound, setNotFound] = useState("");
-    
+  // console.log(shortFilmsCheck)
   useEffect(() => setMoviesForRender(savedMovies), [savedMovies]);
 
   // поиск
@@ -56,20 +59,28 @@ function SavedMovies({ isLoggedIn,  savedMovies,
   };
 
   //  поиск сохраненных
-  const submitHandler = (isOnlyShorts, searchQuery) => {
-    const filteredMovies = filterMovies(searchQuery, savedMovies);
-    const filteredShorts = findOnlyShorts(filteredMovies);
-    // чекбокс
-    if (isOnlyShorts) {
-      setMoviesForRender(filteredShorts);
-      if (filteredShorts.length === 0) {
-        setNotFound("Ничего не найдено");
+  const submitHandler = async (isOnlyShorts, searchQuery) => {
+    try {
+      setIsLoading(true);
+      const filteredMovies = filterMovies(searchQuery, savedMovies);
+      const filteredShorts = findOnlyShorts(filteredMovies);
+
+      // чекбокс
+      if (isOnlyShorts) {
+        setMoviesForRender(filteredShorts);
+        if (filteredShorts.length === 0) {
+          setNotFound("Ничего не найдено");
+        }
+      } else {
+        setMoviesForRender(filteredMovies);
+        if (filteredMovies.length === 0 ) {
+          setNotFound("Ничего не найдено");
+        }
       }
-    } else {
-      setMoviesForRender(filteredMovies);
-      if (filteredMovies.length === 0 ) {
-        setNotFound("Ничего не найдено");
-      }
+    } catch (e) {
+      console.log(e);
+      setIsLoading(false);
+      console.log(isLoading);
     }
   } 
 

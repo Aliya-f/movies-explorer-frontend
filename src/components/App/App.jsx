@@ -15,33 +15,14 @@ import Profile from '../Profile/Profile';
 import NotFound from "../NotFound/NotFound";
 import { CurrentUserContext } from '../../contexts/CurrentUserContext.jsx';
 import ErrorPopup from '../ErrorPopup/ErrorPopup.jsx';
-
 // import Preloader from "../Preloader/Preloader";
 import Register from "../Register/Register";
 import Login from "../Login/Login";
-// import InfoTooltip from "./InfoTooltip.jsx";
-// import { MoviesApi } from '../../utils/MoviesApi';
 import { mainApi } from '../../utils/MainApi';
 
 function App() {
-// // попап аватарки
-//   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
-//   // попап редактирования профиля
-//   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
-//   // попап добавления карточек
-//   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
-//   // попап карточки
-//   const [selectedCard, setSelectedCard] = React.useState(null);
-//   // пользователь
-//   const [currentUser, setCurrentUser] = React.useState({});
-//   // массив карточек
-//   const [cards, setCards] = React.useState([]);
-//   // 12: попап успешной регистрации
-//   const [isInfoTooltipSuccess, setIsInfoTooltipSuccess] = React.useState(false);
-//   // информация о входе
   const [isLoggedIn, setIsLoggedIn] = React.useState(null);
   const [email, setEmail] = React.useState('');
-
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = React.useState(false);
   // const [movies, setMovies] = React.useState([]);
@@ -127,7 +108,6 @@ function App() {
             setIsLoggedIn(true); // вошли
             setEmail(data.email); // получаем почту
             setCurrentUser(data)
-            // navigate("/movies"); // перебрасываем в профиль
           }
         })
         .catch((err) => console.log(err));
@@ -141,8 +121,6 @@ function App() {
     return mainApi
     .setUserInfo(data)
     .then((data) => {
-      // console.log(data) //указанные данные выводит
-      // console.log(data) // выводятся прежние данные, не изменяя
       setCurrentUser(data);
       showError('Данные успешно изменены!');
     })
@@ -249,13 +227,8 @@ function App() {
           element={<NotFound/>}
         />
         <Route path="*" element={<Navigate to='/404' replace />}/>
-        
-        {/* <Route path="/signup" element={<Register onRegister={handleRegister} isLoggedIn={isLoggedIn} />} />
-          <Route path="/signin" element={<Login onAuth={handleLogin} isLoggedIn={isLoggedIn} />} />
-          <Route path="*" element={isLoggedIn ? <Navigate to="/" replace /> : <Navigate to="/sign-in" replace />} /> */}
-        </Routes>
-
-        <ErrorPopup errVisible={isErrorMessageOpen} errorText={ErrorMessageText}/>
+      </Routes>
+      <ErrorPopup errVisible={isErrorMessageOpen} errorText={ErrorMessageText}/>
         {/* <Preloader active={''}/> */}
       </CurrentUserContext.Provider>
     </div>

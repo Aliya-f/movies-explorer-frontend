@@ -5,7 +5,6 @@ import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import {mainApi} from '../../utils/MainApi';
 import './Movies.css';
-// import {initialCards} from '../../utils/initialCards';
 import { MoviesApi } from "../../utils/MoviesApi";
 import Preloader from "../Preloader/Preloader"
 import { useWidth } from "../../hooks/useWidth";
@@ -24,7 +23,6 @@ function Movies({  isLoggedIn, savedMovies, setSavedMovies, cardErrorHandler}) {
 
   const width = useWidth();
   const queryData = localStorage.getItem("queryData");
-  // const token = localStorage.getItem("token");
   let allMovies = localStorage.getItem("allMoviesData");
 
   // количество карточек
@@ -56,13 +54,13 @@ function Movies({  isLoggedIn, savedMovies, setSavedMovies, cardErrorHandler}) {
     return movies.filter((movie) => movie.duration < 40);
   };
 
-    // получаем последний запрос и состояние чекбокса
-    useEffect(() => {
-      if (queryData) {
-        setLastSearchQuery(JSON.parse(queryData)?.searchQuery);
-        setShortFilmsCheck(JSON.parse(queryData)?.isOnlyShortFilms);
-      }
-    }, []);
+  // последний запрос и состояние чекбокса
+  useEffect(() => {
+    if (queryData) {
+      setLastSearchQuery(JSON.parse(queryData)?.searchQuery);
+      setShortFilmsCheck(JSON.parse(queryData)?.isOnlyShortFilms);
+    }
+  }, []);
 
 
   // сохраниение подборки фильмов
@@ -74,7 +72,7 @@ function Movies({  isLoggedIn, savedMovies, setSavedMovies, cardErrorHandler}) {
     }
   }, [shortFilmsCheck, cardsCount, errorMessage]);
 
-  // сохранение чекбокса
+  // сохранение подборки с чекбоксом
   useEffect(() => {
     if (queryData) {
       const newQueryData = JSON.parse(queryData);
@@ -82,16 +80,6 @@ function Movies({  isLoggedIn, savedMovies, setSavedMovies, cardErrorHandler}) {
       localStorage.setItem("queryData", JSON.stringify(newQueryData));
     }
   }, [shortFilmsCheck, queryData]);
-
-
-  useEffect(() => {
-    window.addEventListener("beforeunload", removeAllMoviesData);
-    return () => {
-      window.removeEventListener("beforeunload", removeAllMoviesData);
-    };
-  }, []);
-  
-  const removeAllMoviesData = () => localStorage.removeItem("allMoviesData");
 
   // поиск всех фильмов
   const submitHandler = async (isOnlyShorts, searchQuery) => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import './FilterCheckbox.css';
 
-function FilterCheckbox({ checkbox, setCheckbox}) {
+function FilterCheckbox({ isLoading, checkbox, setCheckbox}) {
 
   const onClickCheckBox = () => setCheckbox(!checkbox);
 
@@ -13,6 +13,7 @@ function FilterCheckbox({ checkbox, setCheckbox}) {
             name="filter-checkbox-mobile" id="filter-checkbox-mobile__input"
             className="filter-checkbox-mobile__input"                checked={checkbox}
             onChange={onClickCheckBox}
+            disabled={isLoading}
           />
           <span className="filter-checkbox-mobile__fake-input">
             <span className="filter-checkbox-mobile__fake-circle"></span>

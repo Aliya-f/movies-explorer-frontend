@@ -4,7 +4,6 @@ import Header from "../Header/Header";
 import "./Profile.css";
 import { CurrentUserContext } from '../../contexts/CurrentUserContext.jsx';
 import {validateMail, validateName} from '../../hooks/useFormValid';
-// import Preloader from "../Preloader/Preloader"
 
 function Profile({ onEditProfile, isLoggedIn, signOut }) {
   const currentUser = React.useContext(CurrentUserContext);
