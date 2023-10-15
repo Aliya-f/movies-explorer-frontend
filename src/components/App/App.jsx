@@ -20,7 +20,8 @@ import Login from "../Login/Login";
 import { mainApi } from '../../utils/MainApi';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = React.useState(null);
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(true);
   const navigate = useNavigate();
   const [isErrorMessageOpen, setErrorMessageOpen] = React.useState(false);
   const [ErrorMessageText, setErrorMessageText] = React.useState('');
@@ -70,6 +71,7 @@ function App() {
         showError('Неправильная почта или пароль');
       })
       .finally(() => {
+        setIsLoading(false);
         setIsRequestSending(false);
       });
   }
@@ -91,8 +93,9 @@ function App() {
   // проверка токена
   React.useEffect(() => {
     const token = localStorage.getItem('JWT');
-      if (token)
-      {
+      if (!token) {
+      setIsLoading(false);
+      } else {
         mainApi
         .checkToken(token)
         .then((data) => {
@@ -102,7 +105,8 @@ function App() {
             setCurrentUser(data)
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.log(err))
+        .finally(() => setIsLoading(false));
     }
   }, []);
 
@@ -151,9 +155,7 @@ function App() {
         });
     }
   }, [currentUser._id, setSavedMovies, token, isLoggedIn]);
-
-  // console.log(savedMovies)
-
+  
   return (
 
     <div className="page">
@@ -161,7 +163,7 @@ function App() {
       <Routes>
         <Route path="/" element={
           <>
-            <Header isLoggedIn={isLoggedIn}/>
+            <Header isLoggedIn={isLoggedIn} />
             <Main />
             <Footer />
           </>
@@ -188,7 +190,7 @@ function App() {
             isLoggedIn={isLoggedIn}
             savedMovies={savedMovies}
             setSavedMovies={setSavedMovies}
-
+            isLoading={isLoading}
             />}
         />
         <Route
@@ -199,7 +201,7 @@ function App() {
             isLoggedIn={isLoggedIn}
             savedMovies={savedMovies}
             setSavedMovies={setSavedMovies}
-
+            isLoading={isLoading}
             />}
         />
         <Route
@@ -211,6 +213,7 @@ function App() {
             signOut={onSignOut}
             onEditProfile={handleEditProfile} 
             isSending={isRequestSending}
+            isLoading={isLoading}
             />}
         />
         <Route

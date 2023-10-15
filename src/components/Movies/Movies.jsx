@@ -60,7 +60,7 @@ function Movies({  isLoggedIn, savedMovies, setSavedMovies, cardErrorHandler}) {
       setLastSearchQuery(JSON.parse(queryData)?.searchQuery);
       setShortFilmsCheck(JSON.parse(queryData)?.isOnlyShortFilms);
     }
-  }, [queryData]);
+  }, []);
 
 
   // сохраниение подборки фильмов

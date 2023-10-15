@@ -12,7 +12,7 @@ function SearchForm({ submitHandler, checkbox,
     if (lastSearchQuery) {
       setData({ ...data, "search": lastSearchQuery });
     }
-  }, [lastSearchQuery, setData, data]);
+  }, [lastSearchQuery, setData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
