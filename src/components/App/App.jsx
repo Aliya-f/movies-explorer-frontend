@@ -15,25 +15,20 @@ import Profile from '../Profile/Profile';
 import NotFound from "../NotFound/NotFound";
 import { CurrentUserContext } from '../../contexts/CurrentUserContext.jsx';
 import ErrorPopup from '../ErrorPopup/ErrorPopup.jsx';
-// import Preloader from "../Preloader/Preloader";
 import Register from "../Register/Register";
 import Login from "../Login/Login";
 import { mainApi } from '../../utils/MainApi';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(null);
-  const [email, setEmail] = React.useState('');
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = React.useState(false);
-  // const [movies, setMovies] = React.useState([]);
   const [isErrorMessageOpen, setErrorMessageOpen] = React.useState(false);
   const [ErrorMessageText, setErrorMessageText] = React.useState('');
   const [currentUser, setCurrentUser] = React.useState('');
   const [isRequestSending, setIsRequestSending] = React.useState(false);
   const token = localStorage.getItem("token");
   const [savedMovies, setSavedMovies] = React.useState([]);
-  const [savedMoviesMessage, setSavedMoviesMessage] = React.useState("");
-
+  
   function handleErrorTimer() {
     setTimeout(() => {
       setErrorMessageOpen(false)
@@ -67,8 +62,6 @@ function App() {
       .then((res) => {
         localStorage.setItem('JWT', res.token);
         console.log(res.token) // токен приходит
-        // api._token = res.token;
-        setEmail(email);
         setIsLoggedIn(true)
         navigate('/movies');
       })
@@ -106,7 +99,6 @@ function App() {
           
           if (data) {
             setIsLoggedIn(true); // вошли
-            setEmail(data.email); // получаем почту
             setCurrentUser(data)
           }
         })
@@ -179,12 +171,12 @@ function App() {
             <Route
               path="/signup" 
               element={
-                <Register isLoggedIn={isLoggedIn} onRegister={handleRegister} isLoading={isLoading} />}
+                <Register isLoggedIn={isLoggedIn} onRegister={handleRegister} isSending={isRequestSending} />}
             />
             <Route 
               path="/signin"
               element={
-                <Login isLoggedIn={isLoggedIn} onAuth={handleLogin} isLoading={isLoading} />} 
+                <Login isLoggedIn={isLoggedIn} onAuth={handleLogin} isSending={isRequestSending} />} 
             />
           </>)
         : null}
@@ -216,7 +208,6 @@ function App() {
             <ProtectedRoute
             element={Profile}
             isLoggedIn={isLoggedIn}
-            isLoading={isLoading}
             signOut={onSignOut}
             onEditProfile={handleEditProfile} 
             isSending={isRequestSending}
@@ -229,7 +220,6 @@ function App() {
         <Route path="*" element={<Navigate to='/404' replace />}/>
       </Routes>
       <ErrorPopup errVisible={isErrorMessageOpen} errorText={ErrorMessageText}/>
-        {/* <Preloader active={''}/> */}
       </CurrentUserContext.Provider>
     </div>
   );

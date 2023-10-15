@@ -5,19 +5,18 @@ import "./Profile.css";
 import { CurrentUserContext } from '../../contexts/CurrentUserContext.jsx';
 import {validateMail, validateName} from '../../hooks/useFormValid';
 
-function Profile({ onEditProfile, isLoggedIn, signOut }) {
+function Profile({ onEditProfile, isLoggedIn, signOut, isSending }) {
   const currentUser = React.useContext(CurrentUserContext);
   // Стейты, в которых содержится значение инпута
   const [data, setData] = React.useState({
     email: currentUser.email,
     name: currentUser.name,
   })  
-
+  const [isIdently, setIsIdently] = React.useState(false);
   const [errors, setErrors] = React.useState({});
   const [isValid, setIsValid] = React.useState(false);
   const [isNameValid, setIsNameValid] = React.useState(false)
   const [isMailValid, setIsMailValid] = React.useState(false);
-  // console.log(currentUser)
 
   // После загрузки текущего пользователя из API его данные будут использованы в управляемых компонентах.
   React.useEffect(() => {
@@ -57,17 +56,21 @@ function Profile({ onEditProfile, isLoggedIn, signOut }) {
     onEditProfile({ email, name });
   };
 
-  const i = ((currentUser.name === data.name) && (currentUser.email === data.email))
-
-  // console.log(isMailValid, isNameValid)
-
   React.useEffect(() => {
-    if (isMailValid && isNameValid && !i) {
+    if (isMailValid && isNameValid) {
       setIsValid(true)
     } else {
       setIsValid(false)
     }
   }, [isMailValid, isNameValid])
+
+  React.useEffect(() => {
+    if ((currentUser.name === data.name) && (currentUser.email === data.email)) {
+      setIsIdently(true)
+    } else {
+      setIsIdently(false)
+    }
+  }, [currentUser.name, data.name, currentUser.email, data.email])
   
   return (
     <>
@@ -88,6 +91,7 @@ function Profile({ onEditProfile, isLoggedIn, signOut }) {
                   value={data.name}
                   required
                   onChange={handleChange}
+                  disabled={isSending}
                 />
                  {isNameValid ? null : <span className="profile__error" id="name-error" >{errors.name}</span>}
               </fieldset>
@@ -103,12 +107,13 @@ function Profile({ onEditProfile, isLoggedIn, signOut }) {
                   required
                   minLength={2}
                   onChange={handleChange}
+                  disabled={isSending}
                 />
                  {isMailValid ? null : <span className="profile__error" id="email-error" >{errors.email} </span> }              
               </fieldset>
               <div className='profile__buttons'>
 
-                {isValid ? <button className='profile__edit-btn' type="submit" >Редактировать</button>
+                {isValid && !isIdently ? <button className='profile__edit-btn' type="submit" disabled={isSending}>Редактировать</button>
                  : <button className='profile__edit-btn profile__edit-btn_disable' type="submit" disabled>Редактировать</button>}
                 <Link to='/' className='profile__exit'  onClick={signOut}>Выйти из аккаунта</Link>
               </div>              

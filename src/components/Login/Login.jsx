@@ -4,7 +4,7 @@ import logo from '../../images/logo.svg';
 import './Login.css';
 import {validateMail, validatePassword} from '../../hooks/useFormValid';
 
-function Login({ onAuth, isLoggedIn}) {
+function Login({ onAuth, isLoggedIn, isSending}) {
   const [data, setData] = React.useState({
     password: '',
     email: '',
@@ -85,6 +85,7 @@ function Login({ onAuth, isLoggedIn}) {
                 required
                 value={data.email || ''}
                 onChange={handleChange}
+                disabled={isSending}
                 />
                 {isMailValid ? null : <span className="login__error" id="email-error" >{errors.email}</span>}
                 <label htmlFor="password" className="login__label">Пароль</label>
@@ -99,11 +100,12 @@ function Login({ onAuth, isLoggedIn}) {
                 required
                 value={data.password || ''}
                 onChange={handleChange}
+                disabled={isSending}
                 />
                 {isPasswordValid ? null : <span className="login__error" id="password-error">{errors.password}</span>}
               </div>  
               <div className="login__container_elem">
-                <button className={isValid ? "login__submit-button" : "login__submit-button login__submit-button_disabled"}type="submit" disabled={!isValid}>Войти</button>     
+                <button className={isValid ? "login__submit-button" : "login__submit-button login__submit-button_disabled"}type="submit" disabled={!isValid || isSending}>Войти</button>     
                 <p className="login__question">Ещё не зарегистрированы?
                 <Link to="/signup" className="login__link">Регистрация</Link>
                 </p>

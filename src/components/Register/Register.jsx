@@ -5,7 +5,7 @@ import logo from '../../images/logo.svg';
 import './Register.css';
 import {validateMail, validateName, validatePassword} from '../../hooks/useFormValid';
 
-function Register({ onRegister, isLoggedIn }) {
+function Register({ onRegister, isLoggedIn, isSending }) {
   const navigate = useNavigate();
   const [data, setData] = React.useState({
     email: '',
@@ -89,6 +89,7 @@ function Register({ onRegister, isLoggedIn }) {
               value={data.name || ''}
               required 
               onChange={handleChange}
+              disabled={isSending}
               />
               {isNameValid ? null : <span className="login__error" id="name-error">{errors.name}</span>}
               <label htmlFor="email" className="login__label">E-mail</label>
@@ -101,6 +102,7 @@ function Register({ onRegister, isLoggedIn }) {
               value={data.email || ''}
               require
               onChange={handleChange}
+              disabled={isSending}
               />
               {isMailValid ? null : <span className="login__error" id="email-error">{errors.email}</span>}
               <label htmlFor="password" className="login__label">Пароль</label>
@@ -114,11 +116,12 @@ function Register({ onRegister, isLoggedIn }) {
               value={data.password || ''}
               required
               onChange={handleChange}
+              disabled={isSending}
               />
                {isPasswordValid ? null : <span className="login__error" id="password-error">{errors.password}</span>}
             </div>
             <div className="login__container_elem">
-              <button className={isValid ? "login__submit-button" : "login__submit-button login__submit-button_disabled"}  disabled={!isValid} type="submit" >Зарегистрироваться</button>        
+              <button className={isValid ? "login__submit-button" : "login__submit-button login__submit-button_disabled"}  disabled={!isValid || isSending} type="submit" >Зарегистрироваться</button>        
               <p className="login__question">Уже зарегистрированы? 
                 <Link to="/signin" className="login__link">Войти</Link>
               </p>
