@@ -48,7 +48,7 @@ function MoviesCard({
   return (
     <li className="card">
       <div className="card__container">
-        <a href={props.trailerLink} target="_blank"><img className="card__image" src={onSavedPage ? props.image : baseUrl + props.image.url} alt={props.nameRU} /></a>
+        <a href={props.trailerLink} target="_blank" rel="noreferrer"><img className="card__image" src={onSavedPage ? props.image : baseUrl + props.image.url} alt={props.nameRU} /></a>
         <div className="card__title-container">
           <h2 className="card__title">{props.nameRU}</h2>
 

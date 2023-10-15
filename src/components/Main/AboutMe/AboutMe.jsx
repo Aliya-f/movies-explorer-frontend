@@ -13,7 +13,7 @@ function AboutMe() {
               Я родился и живу в Саратове, закончил факультет экономики СГУ. У меня есть жена и дочь. Я люблю слушать музыку, а ещё увлекаюсь бегом. Недавно начал кодить. С 2015 года работал в компании «СКБ Контур». После того, как прошёл курс по веб-разработке, начал заниматься фриланс-заказами и ушёл с постоянной работы.
             </p>
             <ul className="about-me__link">
-              <li><a href="https://github.com/Aliya-f" target="_blank">Github</a></li>
+              <li><a href="https://github.com/Aliya-f" target="_blank" rel="noreferrer">Github</a></li>
             </ul>
           </div>
           <img src={`https://foni.club/uploads/posts/2023-02/1677284635_foni-club-p-art-pop-muzhchina-43.jpg`} alt="фото профиля" className="about-me__avatar"/>

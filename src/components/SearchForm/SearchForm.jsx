@@ -12,7 +12,7 @@ function SearchForm({ submitHandler, checkbox,
     if (lastSearchQuery) {
       setData({ ...data, "search": lastSearchQuery });
     }
-  }, [lastSearchQuery, setData]);
+  }, [lastSearchQuery, setData, data]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,7 +40,6 @@ function SearchForm({ submitHandler, checkbox,
             type="search" 
             placeholder="Фильм" 
             className="search-form__input"
-            // required
             value={data["search"] || ""}
             onChange={handleChange}
             

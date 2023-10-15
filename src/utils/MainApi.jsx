@@ -41,14 +41,6 @@ class MainApi {
       .then(this._checkResponse);
   }
 
-  // логаут
-  // logout() {
-  //   return fetch(`${this._baseUrl}/signout`, {
-  //     method: 'POST',
-  //     credentials: 'include',
-  //   })
-  //   .catch((err) => Promise.reject(`Ошибка: ${err.status}`));
-  // }
   // регистрация
   signUp({email, password, name}) {
     return fetch(`${this.baseUrl}/signup`, {

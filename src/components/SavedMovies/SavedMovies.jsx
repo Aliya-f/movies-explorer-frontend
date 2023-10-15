@@ -4,7 +4,6 @@ import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
 import './SavedMovies.css';
-// import Preloader from "../Preloader/Preloader"
 import {mainApi} from '../../utils/MainApi';
 
 function SavedMovies({ 
@@ -80,7 +79,6 @@ function SavedMovies({
     } catch (e) {
       console.log(e);
       setIsLoading(false);
-      console.log(isLoading);
     }
   } 
 
