@@ -89,6 +89,7 @@ function SavedMovies({
         <SearchForm             
         submitHandler={submitHandler}
         checkbox={shortFilmsCheck}
+        isLoading={isLoading}
         setCheckbox={setShortFilmsCheck}
         onSavedPage={true}/>
         {moviesForRender && !message && (
