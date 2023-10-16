@@ -54,16 +54,16 @@ function Movies({  isLoggedIn, savedMovies, setSavedMovies, cardErrorHandler}) {
     return movies.filter((movie) => movie.duration < 40);
   };
 
-  // последний запрос и состояние чекбокса
+  // загрузка последнего поиска и состояния чекбокса
   useEffect(() => {
     if (queryData) {
       setLastSearchQuery(JSON.parse(queryData)?.searchQuery);
-      setShortFilmsCheck(JSON.parse(queryData)?.isOnlyShortFilms);
+      setShortFilmsCheck(JSON.parse(queryData)?.isOnlyShorts);
     }
   }, []);
 
 
-  // сохраниение подборки фильмов
+  // если нет ошибок, меняем блок результатов в зависимости от чекбокса
   useEffect(() => {
     if (!errorMessage) {
       shortFilmsCheck
@@ -72,14 +72,19 @@ function Movies({  isLoggedIn, savedMovies, setSavedMovies, cardErrorHandler}) {
     }
   }, [shortFilmsCheck, cardsCount, errorMessage]);
 
-  // сохранение подборки с чекбоксом
+  // сохранение чекбоксa
   useEffect(() => {
     if (queryData) {
+      // console.log(queryData)
       const newQueryData = JSON.parse(queryData);
+      // console.log(newQueryData)
+      
       newQueryData.isOnlyShorts = shortFilmsCheck;
       localStorage.setItem("queryData", JSON.stringify(newQueryData));
     }
   }, [shortFilmsCheck, queryData]);
+
+  // console.log(queryData)
 
   // поиск всех фильмов
   const submitHandler = async (isOnlyShorts, searchQuery) => {
@@ -151,13 +156,13 @@ function Movies({  isLoggedIn, savedMovies, setSavedMovies, cardErrorHandler}) {
   // поиск лайкнутой карточки
   const cardLiked = (id, array) => {
     const searchItem = array.find((movie) => movie.movieId === id);
-    console.log(searchItem)
+    // console.log(searchItem)
     return searchItem;
   };
   
   // удаление карточки
   const deleteMovie = (movieId, likeHandler) => {
-    console.log(movieId)
+    // console.log(movieId)
     const idInSavedMovies = cardLiked(movieId, savedMovies);
     const savedid = idInSavedMovies._id
     console.log(idInSavedMovies._id)

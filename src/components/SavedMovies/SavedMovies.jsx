@@ -9,16 +9,19 @@ import {mainApi} from '../../utils/MainApi';
 function SavedMovies({ 
   isLoggedIn,  
   savedMovies,
-  setSavedMovies,
+  // setSavedMovies,
   cardErrorHandler, 
   message}) {
+  // стейт состояния чекбокса и запроса поиска
   const [shortFilmsCheck, setShortFilmsCheck] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   // стейт сохраненных карточек
   const [moviesForRender, setMoviesForRender] = useState(savedMovies);
+
   const token = localStorage.getItem("token");
   const [isLoading, setIsLoading] = useState(false);
   const [notFound, setNotFound] = useState("");
-  // console.log(shortFilmsCheck)
+
   useEffect(() => setMoviesForRender(savedMovies), [savedMovies]);
 
   // поиск
@@ -44,8 +47,7 @@ function SavedMovies({
       .deleteMovie(movieId, token)
       .then(() => {
         likeHandler(false);
-        // удаление карточки из 2х стейтов
-        setSavedMovies((state) => state.filter((m) => m._id !== movieId));
+        // setSavedMovies((state) => state.filter((m) => m._id !== movieId));
         setMoviesForRender((state) => state.filter((m) => m._id !== movieId));
       })
       .catch((e) => e.json())
@@ -61,8 +63,11 @@ function SavedMovies({
   const submitHandler = async (isOnlyShorts, searchQuery) => {
     try {
       setIsLoading(true);
-      const filteredMovies = filterMovies(searchQuery, savedMovies);
+      const filteredMovies = filterMovies(searchQuery,  savedMovies);
       const filteredShorts = findOnlyShorts(filteredMovies);
+
+      setSearchQuery(searchQuery)
+      setShortFilmsCheck(isOnlyShorts)
 
       // чекбокс
       if (isOnlyShorts) {
@@ -76,11 +81,15 @@ function SavedMovies({
           setNotFound("Ничего не найдено");
         }
       }
+      setIsLoading(false);
     } catch (e) {
       console.log(e);
       setIsLoading(false);
     }
   } 
+
+  console.log(shortFilmsCheck)
+  console.log(searchQuery)
 
   return (
     <>

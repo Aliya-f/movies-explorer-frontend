@@ -13,6 +13,7 @@ function SearchForm({ submitHandler, checkbox,
       setData({ ...data, "search": lastSearchQuery });
     }
   }, [lastSearchQuery, setData]);
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
